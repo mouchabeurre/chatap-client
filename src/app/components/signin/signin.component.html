@@ -1,0 +1,27 @@
+<mat-vertical-stepper [linear]="true">
+  <mat-step [stepControl]="fg_username">
+    <form [formGroup]="fg_username">
+      <ng-template matStepLabel>Fill out your username</ng-template>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Username" formControlName="username" required>
+        <mat-error *ngIf="username.errors.required">Required</mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="fg_password">
+    <form [formGroup]="fg_password">
+      <ng-template matStepLabel>Fill out your password</ng-template>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Password" formControlName="password" required>
+        <mat-error *ngIf="password.errors.required">Required</mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-vertical-stepper>

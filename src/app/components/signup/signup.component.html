@@ -1,0 +1,127 @@
+<mat-vertical-stepper [linear]="true">
+  <mat-step [stepControl]="fg_username">
+    <form [formGroup]="fg_username" autocomplete="off">
+      <ng-template matStepLabel>Fill out your username</ng-template>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Username" formControlName="username" required>
+        <mat-error *ngIf="is_valid_username && username.errors.required">Required</mat-error>
+        <mat-error *ngIf="is_valid_username && username.errors.pattern">Must be composed of alphanumeric and numbers only</mat-error>
+        <mat-error *ngIf="is_valid_username && username.errors.minlength">Username must be at least {{ username.errors.minlength.requiredLength }} characters long (currently {{ username.errors.minlength.actualLength
+          }})
+        </mat-error>
+        <mat-error *ngIf="is_valid_username && username.errors.maxlength">Username must be at most {{ username.errors.maxlength.requiredLength }} characters long (currently {{ username.errors.maxlength.actualLength
+          }})
+        </mat-error>
+        <mat-error *ngIf="is_valid_username && username.errors.unavailable">This username is already in taken</mat-error>
+        <mat-hint *ngIf="username.pending" class="input-info">
+          <span matPrefix>checking availability</span>
+        </mat-hint>
+        <mat-progress-bar *ngIf="username.pending" class="input-async" mode="indeterminate"></mat-progress-bar>
+      </mat-form-field>
+      <div>
+        <!-- <span>
+          <pre>{{fg_username.valid | json}}</pre>
+          <pre>{{username.valid | json}}</pre>
+          <pre>{{username.pending | json}}</pre>
+        </span> -->
+        <button mat-icon-button color="primary" matStepperNext [disabled]="!fg_username.valid" [matTooltip]="tooltip_msg_next" [matTooltipPosition]="tooltip_pos_next">
+          <mat-icon aria-label="Next step">arrow_downward</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fg_email">
+    <form [formGroup]="fg_email" autocomplete="off">
+      <ng-template matStepLabel>Fill out your email address</ng-template>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Email address" formControlName="email">
+        <mat-error *ngIf="is_valid_email && email.errors.required">Required</mat-error>
+        <mat-error *ngIf="is_valid_email && !email.errors.required && email.errors.email">Must be a valid email</mat-error>
+        <mat-error *ngIf="is_valid_email && email.errors.unavailable">This email is already in use</mat-error>
+        <mat-hint *ngIf="email.pending" class="input-info">
+          <span matPrefix>checking availability</span>
+        </mat-hint>
+        <mat-progress-bar *ngIf="email.pending" class="input-async" mode="indeterminate"></mat-progress-bar>
+      </mat-form-field>
+      <div>
+        <button mat-icon-button color="primary" matStepperPrevious [matTooltip]="tooltip_msg_prev" [matTooltipPosition]="tooltip_pos_prev">
+          <mat-icon aria-label="Previous step">arrow_upward</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matStepperNext [disabled]="!fg_email.valid" [matTooltip]="tooltip_msg_next" [matTooltipPosition]="tooltip_pos_next">
+          <mat-icon aria-label="Next step">arrow_downward</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fg_pseudo">
+    <form [formGroup]="fg_pseudo" autocomplete="off">
+      <ng-template matStepLabel>Fill out your pseudo</ng-template>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Pseudo" formControlName="pseudo">
+        <mat-error *ngIf="is_valid_pseudo && pseudo.errors.required">Required</mat-error>
+        <mat-error *ngIf="is_valid_pseudo && pseudo.errors.pattern">Must be composed of alphanumeric and numbers only</mat-error>
+        <mat-error *ngIf="is_valid_pseudo && pseudo.errors.minlength">Username must be at least {{ pseudo.errors.minlength.requiredLength }} characters long (currently {{ pseudo.errors.minlength.actualLength
+          }})
+        </mat-error>
+        <mat-error *ngIf="is_valid_pseudo && pseudo.errors.maxlength">Username must be at most {{ pseudo.errors.maxlength.requiredLength }} characters long (currently {{ pseudo.errors.maxlength.actualLength
+          }})
+        </mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-icon-button color="primary" matStepperPrevious [matTooltip]="tooltip_msg_prev" [matTooltipPosition]="tooltip_pos_prev">
+          <mat-icon aria-label="Previous step">arrow_upward</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matStepperNext [disabled]="!fg_pseudo.valid" [matTooltip]="tooltip_msg_next" [matTooltipPosition]="tooltip_pos_next">
+          <mat-icon aria-label="Next step">arrow_downward</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fg_password">
+    <form [formGroup]="fg_password" autocomplete="off">
+      <ng-template matStepLabel>Fill out your password</ng-template>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Password" formControlName="password" [type]="hide_p ? 'password' : 'text'">
+        <mat-error *ngIf="is_valid_password && password.errors.required">Required</mat-error>
+        <mat-error *ngIf="is_valid_password && password.errors.minlength">Password must be at least {{ password.errors.minlength.requiredLength }} characters long (currently {{ password.errors.minlength.actualLength
+          }})
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Password confirmation" formControlName="confirm_password" [type]="hide_p ? 'password' : 'text'">
+        <mat-error *ngIf="is_valid_confirm_password && confirm_password.errors.required">Required</mat-error>
+        <mat-error *ngIf="is_valid_confirm_password && confirm_password.errors.minlength">Password must be at least {{ confirm_password.errors.minlength.requiredLength }} characters long (currently{{ confirm_password.errors.minlength.actualLength
+          }})
+        </mat-error>
+        <mat-error *ngIf="is_valid_confirm_password && !confirm_password.errors.required && confirm_password.errors.mismatch">Passwords aren't matching</mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-icon-button color="primary" matStepperPrevious [matTooltip]="tooltip_msg_prev" [matTooltipPosition]="tooltip_pos_prev">
+          <mat-icon aria-label="Previous step">arrow_upward</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matStepperNext [disabled]="!fg_password.valid" [matTooltip]="tooltip_msg_next" [matTooltipPosition]="tooltip_pos_next">
+          <mat-icon aria-label="Next step">arrow_downward</mat-icon>
+        </button>
+        <mat-slide-toggle [color]="accent" [checked]="!hide_p ? 'checked' : ''" (change)="hide_p = !hide_p">
+          Toggle visibility
+        </mat-slide-toggle>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <form>
+      <ng-template matStepLabel>Confirm your information</ng-template>
+      Everything seems correct.
+      <div>
+        <button mat-button color="primary" [disabled]="!(fg_username.valid && fg_email.valid && fg_pseudo.valid && fg_password.valid)">Done</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-vertical-stepper>
+<span>
+  <pre>forms validity: {{fg_username.valid && fg_email.valid && fg_pseudo.valid && fg_password.valid | json}}</pre>
+</span>
