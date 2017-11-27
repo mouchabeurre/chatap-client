@@ -1,0 +1,31 @@
+<mat-vertical-stepper [linear]="true">
+  <mat-step [stepControl]="fg_username">
+    <form [formGroup]="fg_username">
+      <ng-template matStepLabel>Fill out your username</ng-template>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Username" formControlName="username" required>
+        <mat-error *ngIf="is_valid_username && username.errors.required">Required</mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-icon-button color="primary" matStepperNext [disabled]="!fg_username.valid" [matTooltip]="tooltip_msg_next" [matTooltipPosition]="tooltip_pos_next">
+          <mat-icon aria-label="Next step">keyboard_arrow_down</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="fg_password">
+    <form [formGroup]="fg_password">
+      <ng-template matStepLabel>Fill out your password</ng-template>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Password" formControlName="password" type="password" required>
+        <mat-error *ngIf="is_valid_password && password.errors.required">Required</mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-icon-button color="primary" matStepperPrevious [matTooltip]="tooltip_msg_prev" [matTooltipPosition]="tooltip_pos_prev">
+          <mat-icon aria-label="Previous step">keyboard_arrow_up</mat-icon>
+        </button>
+        <button mat-raised-button (click)="onSubmit()" class="to-uppercase" color="primary" [disabled]="!(fg_username.valid && fg_password.valid)" matStepperNext>Connection</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-vertical-stepper>
