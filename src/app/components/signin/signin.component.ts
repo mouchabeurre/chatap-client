@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SIGN_IN } from '../../models/auth-signin';
 
@@ -28,7 +29,8 @@ export class SigninComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -61,7 +63,8 @@ export class SigninComponent implements OnInit {
     };
     this.authService.authenticate(this._response).subscribe(
       data => {
-        console.log('logged in', data);
+        this.authService.storeToken(data.token);
+        this.router.navigate(['/home']);
       },
       err => {
         console.log('Something went wrong!', err);

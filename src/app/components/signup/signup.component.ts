@@ -7,6 +7,7 @@ import {
   AsyncValidatorFn,
   AbstractControl
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
@@ -51,7 +52,8 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -161,7 +163,7 @@ export class SignupComponent implements OnInit {
     };
     this.authService.register(this._response).subscribe(
       data => {
-        console.log('registered', data);
+        this.router.navigate(['/connect/signin']);
       },
       err => {
         console.log('Something went wrong!', err);
