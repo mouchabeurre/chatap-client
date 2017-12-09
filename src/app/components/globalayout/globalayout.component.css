@@ -1,35 +1,26 @@
-.rooms {
-  grid-area: rooms;
+.sidelist {
+  grid-area: sidelist;
   background: rgb(24, 22, 22);
-}
-.threads {
-  grid-area: threads;
-  background: rgb(109, 107, 107);
 }
 .toolbar {
   grid-area: toolbar;
   background: rgb(69, 108, 218);
 }
-.feed {
-  grid-area: feed;
-  background: rgb(206, 206, 206);
-}
-.connected {
-  grid-area: connected;
-  background: rgb(24, 22, 22);
+.roomcontent {
+  grid-area: roomcontent;
 }
 
-.container {
+.global-grid {
   display: grid;
-  grid-template-columns: 150px 300px auto 300px;
+  grid-template-columns: 250px auto;
   grid-template-rows: 70px auto;
   grid-template-areas: 
-    "rooms toolbar toolbar toolbar"
-    "rooms threads feed connected";
+    "sidelist toolbar toolbar toolbar"
+    "sidelist roomcontent roomcontent roomcontent";
 }
 
 @media all and (max-width: 1400px) {
-  .container {
-    grid-template-columns: 100px 250px auto 250px;
+  .global-grid {
+    grid-template-columns: 150px 225px auto 225px;
   }
 }

@@ -1,7 +1,7 @@
 interface _BASIC {
   success: boolean;
 }
-interface _ERROR extends _BASIC {
+export interface _ERROR extends _BASIC {
   method?: string;
   path?: string;
   error?: string;

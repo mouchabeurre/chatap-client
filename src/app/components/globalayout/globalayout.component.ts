@@ -8,17 +8,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class GlobalayoutComponent implements OnInit {
 
-  private myInnerHeight: number;
-
-  constructor() {
-    this.myInnerHeight = window.innerHeight - 70;
-  }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  onResize(event) {
-    this.myInnerHeight = event.target.innerHeight - 70;
   }
 
 }

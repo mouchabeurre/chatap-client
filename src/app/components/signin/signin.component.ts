@@ -28,9 +28,9 @@ export class SigninComponent implements OnInit {
   private tooltip_msg_prev: string = 'Previous step';
 
   constructor(
-    private authService: AuthService,
+    private _authService: AuthService,
     private _fb: FormBuilder,
-    private router: Router
+    private _router: Router
   ) { }
 
   ngOnInit() {
@@ -61,10 +61,10 @@ export class SigninComponent implements OnInit {
       username: this.fg_username.controls.username.value,
       password: this.fg_password.controls.password.value
     };
-    this.authService.authenticate(this._response).subscribe(
+    this._authService.authenticate(this._response).subscribe(
       data => {
-        this.authService.storeToken(data.token);
-        this.router.navigate(['/home']);
+        this._authService.storeToken(data.token);
+        this._router.navigate(['/home']);
       },
       err => {
         console.log('Something went wrong!', err);

@@ -52,8 +52,8 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
+    private _authService: AuthService,
+    private _router: Router
   ) { }
 
   ngOnInit() {
@@ -65,11 +65,11 @@ export class SignupComponent implements OnInit {
 
     this.username = new FormControl(null, {
       validators: [Validators.required, Validators.pattern('[a-zA-Z0-9_-]+'), Validators.minLength(3), Validators.maxLength(20)],
-      asyncValidators: [this.usernameAvailable(this.authService)]
+      asyncValidators: [this.usernameAvailable(this._authService)]
     });
     this.email = new FormControl(null, {
       validators: [Validators.required, Validators.email],
-      asyncValidators: [this.emailValidation(this.authService)]
+      asyncValidators: [this.emailValidation(this._authService)]
     });
     this.pseudo = new FormControl(null, {
       validators: [Validators.required, Validators.pattern('[a-zA-Z0-9_-]+'), Validators.minLength(3), Validators.maxLength(20)]
@@ -98,10 +98,10 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  usernameAvailable(authService: AuthService) {
+  usernameAvailable(_authService: AuthService) {
     return (c: AbstractControl): Observable<any> => {
       return c.valueChanges.debounceTime(1500).distinctUntilChanged().switchMap(() => {
-        return authService.usernameCheck(c.value).map(
+        return _authService.usernameCheck(c.value).map(
           res => {
             if (!res.available) {
               c.setErrors({ unavailable: true });
@@ -119,10 +119,10 @@ export class SignupComponent implements OnInit {
     }
   }
 
-  emailValidation(authService: AuthService): AsyncValidatorFn {
+  emailValidation(_authService: AuthService): AsyncValidatorFn {
     return (c: AbstractControl): Observable<any> => {
       return c.valueChanges.debounceTime(1500).distinctUntilChanged().switchMap(() => {
-        return authService.emailCheck(c.value).map(
+        return _authService.emailCheck(c.value).map(
           res => {
             if (!res.available) {
               c.setErrors({ unavailable: true });
@@ -161,9 +161,9 @@ export class SignupComponent implements OnInit {
       pseudo: this.fg_pseudo.controls.pseudo.value,
       password: this.fg_password.controls.password.value
     };
-    this.authService.register(this._response).subscribe(
+    this._authService.register(this._response).subscribe(
       data => {
-        this.router.navigate(['/connect/signin']);
+        this._router.navigate(['/connect/signin']);
       },
       err => {
         console.log('Something went wrong!', err);

@@ -11,44 +11,48 @@ import { AUTHENTICATE, AVAILABLE, REGISTER } from '../models/server-res';
 export class AuthService {
 
   constructor(
-    private http: HttpClient,
+    private _http: HttpClient,
     private jwtHelperService: JwtHelperService
   ) { }
 
   authenticate(user: SIGN_IN) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.post<AUTHENTICATE>('http://localhost:8080/api/user/authenticate', user, { headers: headers });
+    return this._http.post<AUTHENTICATE>('http://localhost:8080/api/user/authenticate', user, { headers: headers });
   }
 
   register(user: SIGN_UP) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.post<REGISTER>('http://localhost:8080/api/user/register', user, { headers: headers });
+    return this._http.post<REGISTER>('http://localhost:8080/api/user/register', user, { headers: headers });
   }
 
   usernameCheck(username: string) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.get<AVAILABLE>(`http://localhost:8080/api/user/usernamecheck/${username}`, { headers: headers });
+    return this._http.get<AVAILABLE>(`http://localhost:8080/api/user/usernamecheck/${username}`, { headers: headers });
   }
 
   emailCheck(email: string) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.get<AVAILABLE>(`http://localhost:8080/api/user/usernamecheck/${email}`, { headers: headers });
+    return this._http.get<AVAILABLE>(`http://localhost:8080/api/user/usernamecheck/${email}`, { headers: headers });
   }
 
   storeToken(token) {
     localStorage.setItem('access_token', token);
   }
 
-  getUser() {
+  get user(): any {
     const token: string = this.jwtHelperService.tokenGetter();
     return this.jwtHelperService.decodeToken(token);
   }
 
-  loggedIn() {
+  get token(): string {
+    return this.jwtHelperService.tokenGetter();
+  }
+
+  get loggedIn(): boolean {
     const token: string = this.jwtHelperService.tokenGetter();
     if (!token) {
       return false;

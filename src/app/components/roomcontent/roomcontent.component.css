@@ -1,0 +1,22 @@
+.guests {
+  grid-area: guests;
+  background: rgb(24, 22, 22);
+}
+
+.threads {
+  grid-area: threads;
+  background: rgb(109, 107, 107);
+}
+
+.chat {
+  grid-area: chat;
+  background: rgb(206, 206, 206);
+}
+
+.room-grid {
+  display: grid;
+  grid-template-columns: 300px auto 300px;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "threads chat guests";
+}

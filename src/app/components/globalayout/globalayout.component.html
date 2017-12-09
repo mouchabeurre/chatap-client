@@ -1,7 +1,5 @@
-<div class="container" (window:resize)="onResize($event)">
-  <div class="rooms"></div>
-  <div class="threads"></div>
+<div class="global-grid">
+  <app-sidelist class="sidelist"></app-sidelist>
+  <app-roomcontent class="roomcontent"></app-roomcontent>
   <div class="toolbar"></div>
-  <div class="feed" [style.height.px]="myInnerHeight"></div>
-  <div class="connected"></div>
 </div>

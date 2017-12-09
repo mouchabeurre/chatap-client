@@ -14,12 +14,12 @@ export class AuthGuard implements CanActivate {
     private auth: AuthService,
     private router: Router
   ) { }
-  
+
   canActivate(): boolean {
-    if (this.auth.loggedIn()) {
+    if (this.auth.loggedIn) {
       return true;
     } else {
-      localStorage.removeItem('access_token');
+      this.auth.clearToken();
       this.router.navigateByUrl('/connect');
       return false;
     }

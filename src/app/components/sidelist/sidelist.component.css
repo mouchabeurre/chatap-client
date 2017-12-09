@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.item {
+  align-self: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.white * {
+  color: white;
+}
+
+.scroll {
+  overflow: auto;
+}
+
+.switch {
+  padding-top: 10px;
+}
+
+.new-room {
+  width: 100%;
+  text-align: center;
+}
+
+.new-room > span {
+  color: #c7c7c7;
+}
+
+.filter-form label {
+  color: #c7c7c7 !important;
+}
+
+.mat-form-field-ripple {
+  background-color: #a1a1a1 !important;
+}
+
+.mat-form-field-underline {
+  background-color: #a1a1a1 !important;
+}
+
+mat-list {
+  padding-top: 0px !important;
+}
+
+mat-list-item {
+  cursor: pointer;
+  transition: all 150ms;
+}
+
+mat-list-item:hover {
+  background-color: rgba(85, 85, 85, 0.548);
+}
