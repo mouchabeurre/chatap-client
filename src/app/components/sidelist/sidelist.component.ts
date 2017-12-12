@@ -101,6 +101,8 @@ export class SidelistComponent implements OnInit {
 
   onChangeRoom(id: string) {
     console.log('changing room', id);
+    this.socketService.getRoomAction(id);
+    this.current_room = id;
   }
 
   onChangeFriend(username: string) {

@@ -1,4 +1,4 @@
-<mat-list-item *ngFor="let friend of (friends | friendfilter: query)" (click)="change(friend.username)">
+<mat-list-item *ngFor="let friend of (friends | friendfilter: query)" (click)="change(friend.username)" class="side-mat-list-item">
   <mat-icon matListIcon>person</mat-icon>
   <h3 matLine> {{ friend.username }} </h3>
   <p matLine>

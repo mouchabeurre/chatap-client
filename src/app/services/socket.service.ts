@@ -42,7 +42,9 @@ export class SocketService {
     this.connection();
     this.afterAuth();
     this.createRoom();
+    this.getRoom();
     this.createThread();
+    this.getThread();
     this.sendThread();
     this.sendFriendRequest();
     this.replyFriendRequest();
@@ -134,7 +136,16 @@ export class SocketService {
     } else {
       this.socket.emit('create-room', { name: name });
     }
-
+  }
+  private getRoom() {
+    this.listen('get-room-ack').subscribe(
+      (res: { event: string, data: res.GET_ROOM }) => {
+        this.roomcontentSubject.next(res);
+      }
+    );
+  }
+  public getRoomAction(room_id: string) {
+    this.socket.emit('get-room', { room_id: room_id });
   }
 
   private createThread() {
@@ -149,6 +160,19 @@ export class SocketService {
       }
     );
   }
+  public createThreadAction(title: string, room_id: string[]) {
+    this.socket.emit('create-thread', { title: title, room_id: room_id });
+  }
+  private getThread() {
+    this.listen('get-thread-ack').subscribe(
+      (res: { event: string, data: res.GET_THREAD }) => {
+        this.roomcontentSubject.next(res);
+      }
+    );
+  }
+  public getThreadAction(room_id: string, thread_id: string) {
+    this.socket.emit('get-thread', { room_id: room_id, thread_id: thread_id });
+  }
 
   private sendThread() {
     this.listen('send-thread-ack').subscribe(
@@ -161,6 +185,14 @@ export class SocketService {
         this.roomcontentSubject.next(res);
       }
     );
+  }
+  public sendThreadAction(content: string, room_id: string, thread_id: string, media: string) {
+    this.socket.emit('send-thread', {
+      content: content,
+      room_id: room_id,
+      thread_id: thread_id,
+      media: media
+    });
   }
 
   private sendFriendRequest() {

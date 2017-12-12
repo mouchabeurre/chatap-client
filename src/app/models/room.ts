@@ -1,10 +1,10 @@
 export interface ROOM {
   id: string;
-  name?: string;
+  name: string;
   owner: string;
   date: Date;
-  feed?: string;
-  threads: [string];
+  mainthread: any;
+  threads: any[];
   guests: [{
     user: string,
     privilege: string
@@ -14,5 +14,5 @@ export interface ROOM {
     user: string,
     message: string
   }];
-  whitelisted?: [string];
+  whitelisted?: string[];
 }

@@ -15,8 +15,17 @@
 
 .room-grid {
   display: grid;
-  grid-template-columns: 300px auto 300px;
+  grid-template-columns: 1fr 5fr 1fr;
   grid-template-rows: auto;
   grid-template-areas: 
     "threads chat guests";
+}
+
+.empty {
+  width: 280px;
+  margin: auto;
+}
+
+.thread-mat-list {
+  padding-top: 0px !important;
 }

@@ -45,15 +45,15 @@
   background-color: #a1a1a1 !important;
 }
 
-mat-list {
+.side-mat-list {
   padding-top: 0px !important;
 }
 
-mat-list-item {
+.side-mat-list-item {
   cursor: pointer;
   transition: all 150ms;
 }
 
-mat-list-item:hover {
+.side-mat-list-item:hover {
   background-color: rgba(85, 85, 85, 0.548);
 }

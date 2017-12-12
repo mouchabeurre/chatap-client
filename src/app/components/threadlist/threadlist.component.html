@@ -1,0 +1,7 @@
+<mat-list-item *ngFor="let thread of threads" (click)="change(thread.id)" class="thread-mat-list-item">
+  <mat-icon matListIcon>chat</mat-icon>
+  <h3 matLine> {{ thread.title }} </h3>
+  <p matLine>
+    <span> {{ thread.id }} </span>
+  </p>
+</mat-list-item>

@@ -1,4 +1,4 @@
-<mat-list-item *ngFor="let room of (rooms | roomfilter: query)" (click)="change(room.id)">
+<mat-list-item *ngFor="let room of (rooms | roomfilter: query)" (click)="change(room.id)" class="side-mat-list-item">
   <mat-icon matListIcon>people</mat-icon>
   <h3 matLine> {{ room.name }} </h3>
   <p matLine>

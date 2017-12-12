@@ -25,6 +25,9 @@ import { RoomcontentComponent } from './components/roomcontent/roomcontent.compo
 import { FriendfilterPipe } from './pipes/friendfilter.pipe';
 import { RoomfilterPipe } from './pipes/roomfilter.pipe';
 import { RoomcreationdialogComponent, Dialogview } from './components/roomcreationdialog/roomcreationdialog.component';
+import { ThreadlistComponent } from './components/threadlist/threadlist.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { StreamDatePipe } from './pipes/stream-date.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { RoomcreationdialogComponent, Dialogview } from './components/roomcreati
     FriendfilterPipe,
     RoomfilterPipe,
     RoomcreationdialogComponent,
-    Dialogview
+    Dialogview,
+    ThreadlistComponent,
+    ChatComponent,
+    StreamDatePipe
   ],
   entryComponents: [Dialogview],
   imports: [

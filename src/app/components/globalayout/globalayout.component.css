@@ -18,9 +18,3 @@
     "sidelist toolbar toolbar toolbar"
     "sidelist roomcontent roomcontent roomcontent";
 }
-
-@media all and (max-width: 1400px) {
-  .global-grid {
-    grid-template-columns: 150px 225px auto 225px;
-  }
-}

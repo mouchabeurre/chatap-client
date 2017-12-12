@@ -1,5 +1,23 @@
-<div class="room-grid" (window:resize)="onResize($event)">
-  <div class="chat" [style.height.px]="myInnerHeight"></div>
+<div *ngIf="room; else noRoomSelected" class="room-grid" (window:resize)="onResize($event)">
+  <div class="chat" [style.height.px]="myInnerHeight">
+    <app-chat *ngIf="thread; else noThreadSelected" [stream]="thread.feed" (onSendMessage)="onSendMessage($event)"></app-chat>
+  </div>
+  <ng-template #noThreadSelected>
+    <div class="chat empty">
+      <h2>Select a thread</h2>
+    </div>
+  </ng-template>
   <div class="guests"></div>
-  <div class="threads"></div>
+  <div class="threads">
+    <mat-list class="thread-mat-list">
+      <app-threadlist [threads]="threads_list" [currentThread]="thread_id" (onChangeThread)="onChangeThread($event)"></app-threadlist>
+    </mat-list>
+  </div>
 </div>
+
+<ng-template #noRoomSelected>
+  <div class="empty">
+    <h2>Nothing to show here :(</h2>
+    <p>Select a room from the left side panel (if you don't have any yet just create one!)</p>
+  </div>
+</ng-template>

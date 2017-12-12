@@ -21,11 +21,11 @@
     </button>
   </div>
   <div class="scroll white" (window:resize)="onResize($event)" [style.height.px]="myInnerHeight">
-    <mat-list *ngIf="toggle.room_deployed; else friendsView">
+    <mat-list *ngIf="toggle.room_deployed; else friendsView" class="side-mat-list">
       <app-rooms [rooms]="rooms" [query]="query" (onChangeRoom)="onChangeRoom($event)"></app-rooms>
     </mat-list>
     <ng-template #friendsView>
-      <mat-list>
+      <mat-list class="side-mat-list">
         <app-friends [friends]="friends" [query]="query" (onChangeFriend)="onChangeFriend($event)"></app-friends>
       </mat-list>
     </ng-template>

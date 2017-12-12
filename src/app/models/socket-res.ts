@@ -1,3 +1,7 @@
+import { ROOM } from './room';
+import { THREAD } from './thread';
+import { MESSAGE } from './message';
+
 export interface SUCCESS {
   success: boolean;
 }
@@ -16,7 +20,7 @@ export interface CONNECTED_FRIENDS extends SUCCESS {
 }
 
 export interface JOINED_ROOMS extends SUCCESS {
-  rooms: [string] | null;
+  rooms: string[] | null;
 }
 
 export interface CONNECTION_FRIEND extends SUCCESS {
@@ -29,17 +33,30 @@ export interface CONNECTION_GUEST extends SUCCESS {
   online: boolean;
 }
 
+export interface GET_ROOM extends SUCCESS {
+  room: ROOM;
+}
+
 export interface NEW_ROOM extends SUCCESS {
   room_id: string;
-  guests?: [string];
+  guests?: string[];
+}
+
+export interface GET_THREAD extends SUCCESS {
+  thread: THREAD;
 }
 
 export interface NEW_THREAD extends SUCCESS {
   thread_id: string;
 }
 
+export interface GET_MESSAGE extends SUCCESS {
+  message: MESSAGE;
+}
+
 export interface NEW_MESSAGE extends SUCCESS {
   thread_id: string;
+  room_id: string;
   message: {
     thread: string;
     author: string;
