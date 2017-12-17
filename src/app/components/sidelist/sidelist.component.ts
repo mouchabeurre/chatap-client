@@ -66,6 +66,7 @@ export class SidelistComponent implements OnInit {
             this.friends[index].online = res.data.online;
             break;
           case 'create-room-ack':
+            this.socketService.joinRoomAction(res.data.room_id);
             this.rooms.push({
               name: 'new',
               id: res.data.room_id
@@ -89,6 +90,7 @@ export class SidelistComponent implements OnInit {
           case 'remove-friend':
             break;
           case 'added-room':
+            this.socketService.joinRoomAction(res.data.room_id);
             this.rooms.push({
               name: 'new',
               id: res.data.room_id

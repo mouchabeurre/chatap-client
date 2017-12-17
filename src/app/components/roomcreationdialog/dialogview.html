@@ -2,26 +2,27 @@
 <div mat-dialog-content>
   <form [formGroup]="fg">
     <mat-form-field class="full-width">
-      <input matInput tabindex="1" placeholder="Name of the room" [(ngModel)]="data.name" formControlName="name"
-        required>
+      <input matInput tabindex="1" placeholder="Name of the room" [(ngModel)]="data.name" formControlName="name" required>
       <mat-error *ngIf="is_valid_name && name.errors.required">Required</mat-error>
     </mat-form-field>
   </form>
-  <h4 style="margin: 10px auto;">Add friends to your room</h4>
-  <div class="scroll addfriends">
-    <mat-selection-list dense #list>
-      <mat-list-option *ngFor="let friend of data.friends" (click)="onSelectionChanged(list)" [value]="friend.username">
-        {{ friend.username }}
-      </mat-list-option>
-    </mat-selection-list>
-  </div>
-  <div class="chip-list">
-    <span *ngIf="selectedGuests.length > 0">Added: </span>
-    <mat-chip-list>
-      <mat-chip *ngFor="let guest of selectedGuests" [selectable]="false">
-        {{ guest }}
-      </mat-chip>
-    </mat-chip-list>
+  <div *ngIf="data.friends.length > 0">
+    <h4 style="margin: 10px auto;">Add friends to your room</h4>
+    <div class="scroll addfriends">
+      <mat-selection-list dense #list>
+        <mat-list-option *ngFor="let friend of data.friends" (click)="onSelectionChanged(list)" [value]="friend.username">
+          {{ friend.username }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <div class="chip-list">
+      <span *ngIf="selectedGuests.length > 0">Added: </span>
+      <mat-chip-list>
+        <mat-chip *ngFor="let guest of selectedGuests" [selectable]="false">
+          {{ guest }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
   </div>
 </div>
 

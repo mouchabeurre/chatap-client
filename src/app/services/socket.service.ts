@@ -270,6 +270,9 @@ export class SocketService {
       }
     );
   }
+  public joinRoomAction(room_id: string) {
+    this.socket.emit('join-room', { room_id: room_id });
+  }
 
   private removeGuest() {
     this.listen('remove-guest-ack').subscribe(
