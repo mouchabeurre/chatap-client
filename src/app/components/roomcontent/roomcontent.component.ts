@@ -13,17 +13,13 @@ export class RoomcontentComponent implements OnInit {
 
   private room: ROOM;
   private thread: THREAD;
+  private _thread_list: { id: string, title: string }[];
 
   get threads_list(): { id: string, title: string }[] | null {
     if (!this.room) {
       return null;
     }
-    const list: { id: string, title: string }[] = [];
-    list.push({ id: this.room.mainthread._id, title: this.room.mainthread.title });
-    for (let i = 0; i < this.room.threads.length; i++) {
-      list.push({ id: this.room.threads[i]._id, title: this.room.threads[i].title });
-    }
-    return list;
+    return this._thread_list;
   }
 
   get thread_id(): string | null {
@@ -38,6 +34,7 @@ export class RoomcontentComponent implements OnInit {
   ) {
     this.room = null;
     this.thread = null;
+    this._thread_list = [];
   }
 
   ngOnInit() {
@@ -48,6 +45,11 @@ export class RoomcontentComponent implements OnInit {
             break;
           case 'get-room-ack':
             this.room = res.data.room;
+            this._thread_list = [];
+            this._thread_list.push({ id: this.room.mainthread._id, title: this.room.mainthread.title });
+            for (let i = 0; i < this.room.threads.length; i++) {
+              this._thread_list.push({ id: this.room.threads[i]._id, title: this.room.threads[i].title });
+            }
             this.thread = null;
             break;
           case 'create-thread-ack':

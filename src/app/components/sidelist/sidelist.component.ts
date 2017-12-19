@@ -90,7 +90,7 @@ export class SidelistComponent implements OnInit {
             break;
         }
       }
-    )
+    );
   }
 
   onChangeRoom(id: string) {

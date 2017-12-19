@@ -1,4 +1,7 @@
-<mat-list-item *ngFor="let thread of threads" (click)="change(thread.id)" class="thread-mat-list-item">
+<mat-list-item *ngFor="let thread of threads" (click)="change(thread.id)" class="thread-mat-list-item" [ngClass]="{
+  'selected-thread': currentThread == thread.id,
+  'not-selected-thread': currentThread != thread.id
+}">
   <mat-icon matListIcon>chat</mat-icon>
   <h3 matLine> {{ thread.title }} </h3>
   <p matLine>

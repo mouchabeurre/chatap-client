@@ -14,8 +14,7 @@ export class ThreadlistComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   change(id: string) {
     if (this.currentThread !== id) {

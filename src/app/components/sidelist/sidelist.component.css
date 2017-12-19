@@ -13,7 +13,7 @@
 }
 
 .white * {
-  color: white;
+  color: rgb(221, 221, 221);
 }
 
 .scroll {
@@ -54,10 +54,18 @@
 }
 
 .side-mat-list-item {
-  cursor: pointer;
   transition: all 150ms;
 }
 
-.side-mat-list-item:hover {
-  background-color: rgba(85, 85, 85, 0.548);
+.not-selected-side {
+  cursor: pointer;
+}
+
+.not-selected-side:hover {
+  background-color: #242424;
+}
+
+.selected-side {
+  background-color: #3d3d3d;
+  border-left: 6px solid #456cda;
 }

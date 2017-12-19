@@ -31,6 +31,7 @@ import { StreamDatePipe } from './pipes/stream-date.pipe';
 import { ShareChatVhDirective } from './directives/share-chat-vh.directive';
 import { FullHeightDirective } from './directives/full-height.directive';
 import { ScrollDownStreamDirective } from './directives/scroll-down-stream.directive';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ScrollDownStreamDirective } from './directives/scroll-down-stream.direc
     StreamDatePipe,
     ShareChatVhDirective,
     FullHeightDirective,
-    ScrollDownStreamDirective
+    ScrollDownStreamDirective,
+    ToolbarComponent
   ],
   entryComponents: [Dialogview],
   imports: [
