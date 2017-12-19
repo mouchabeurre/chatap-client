@@ -11,8 +11,6 @@ import { THREAD } from '../../models/thread';
 })
 export class RoomcontentComponent implements OnInit {
 
-  private myInnerHeight: number;
-
   private room: ROOM;
   private thread: THREAD;
 
@@ -38,7 +36,6 @@ export class RoomcontentComponent implements OnInit {
   constructor(
     private socketService: SocketService
   ) {
-    this.myInnerHeight = window.innerHeight - 70;
     this.room = null;
     this.thread = null;
   }
@@ -63,8 +60,7 @@ export class RoomcontentComponent implements OnInit {
           case 'send-thread-ack':
             break;
           case 'new-message':
-          console.log('new message !', this.room.id, res.data.room_id, this.thread._id, res.data.thread_id);
-            if (this.room.id === res.data.room_id && this.thread._id === res.data.thread_id) {
+            if (this.room !== null && this.room.id === res.data.room_id && this.thread._id === res.data.thread_id) {
               this.thread.feed.push(res.data.message);
             }
             break;
@@ -89,10 +85,6 @@ export class RoomcontentComponent implements OnInit {
   onSendMessage(loadout: { content: string, media: string }) {
     console.log('sending message', loadout.content);
     this.socketService.sendThreadAction(loadout.content, this.room.id, this.thread._id, loadout.media);
-  }
-
-  onResize(event) {
-    this.myInnerHeight = event.target.innerHeight - 70;
   }
 
 }

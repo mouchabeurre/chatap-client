@@ -5,11 +5,11 @@
     </button>
   </div>
   <div class="item filter-form">
-    <mat-form-field class="full-width white" floatLabel="never">
-      <input matInput [(ngModel)]="query" placeholder="Filter">
-      <mat-icon matSuffix (click)="resetFilter()">
-        {{ (query == undefined || query.length == 0) ? 'edit' : 'close' }}
-      </mat-icon>
+    <mat-form-field class="white" floatLabel="never">
+      <input matInput type="text" placeholder="Filter" [(ngModel)]="query" />
+      <button mat-button *ngIf="query" matSuffix mat-icon-button aria-label="Clear" (click)="resetFilter()">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   </div>
   <div *ngIf="toggle.room_deployed" class="item new-room">
@@ -20,9 +20,9 @@
       <mat-icon aria-label="Add icon">add_box</mat-icon>
     </button>
   </div>
-  <div class="scroll white" (window:resize)="onResize($event)" [style.height.px]="myInnerHeight">
+  <div class="scroll white" [appFullHeight]="152">
     <mat-list *ngIf="toggle.room_deployed; else friendsView" class="side-mat-list">
-      <app-rooms [rooms]="rooms" [query]="query" (onChangeRoom)="onChangeRoom($event)"></app-rooms>
+      <app-rooms [rooms]="rooms" [query]="query" [currentRoom]="current_room" (onChangeRoom)="onChangeRoom($event)"></app-rooms>
     </mat-list>
     <ng-template #friendsView>
       <mat-list class="side-mat-list">

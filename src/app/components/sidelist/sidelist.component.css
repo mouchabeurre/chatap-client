@@ -37,6 +37,10 @@
   color: #c7c7c7 !important;
 }
 
+.filter-form > mat-form-field {
+  width: 180px;
+}
+
 .mat-form-field-ripple {
   background-color: #a1a1a1 !important;
 }

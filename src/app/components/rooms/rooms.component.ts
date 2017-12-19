@@ -11,6 +11,7 @@ export class RoomsComponent implements OnInit {
 
   @Input() rooms: Room[];
   @Input() query: string;
+  @Input() currentRoom: string | null;
   @Output() onChangeRoom = new EventEmitter<string>();
 
   constructor(
@@ -20,7 +21,9 @@ export class RoomsComponent implements OnInit {
   }
 
   change(id: string) {
-    this.onChangeRoom.emit(id);
+    if (this.currentRoom !== id) {
+      this.onChangeRoom.emit(id);
+    }
   }
 
 }

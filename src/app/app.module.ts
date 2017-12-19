@@ -28,6 +28,9 @@ import { RoomcreationdialogComponent, Dialogview } from './components/roomcreati
 import { ThreadlistComponent } from './components/threadlist/threadlist.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { StreamDatePipe } from './pipes/stream-date.pipe';
+import { ShareChatVhDirective } from './directives/share-chat-vh.directive';
+import { FullHeightDirective } from './directives/full-height.directive';
+import { ScrollDownStreamDirective } from './directives/scroll-down-stream.directive';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,10 @@ import { StreamDatePipe } from './pipes/stream-date.pipe';
     Dialogview,
     ThreadlistComponent,
     ChatComponent,
-    StreamDatePipe
+    StreamDatePipe,
+    ShareChatVhDirective,
+    FullHeightDirective,
+    ScrollDownStreamDirective
   ],
   entryComponents: [Dialogview],
   imports: [

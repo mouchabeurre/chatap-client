@@ -17,13 +17,6 @@ export class ThreadlistComponent implements OnInit {
   ngOnInit() {
   }
 
-  canChange(id: string): boolean {
-    if (this.currentThread === null) {
-      return true;
-    }
-    return (this.currentThread === id) ? false : true;
-  }
-
   change(id: string) {
     if (this.currentThread !== id) {
       this.onChangeThread.emit(id);

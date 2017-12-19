@@ -1,5 +1,5 @@
-<div *ngIf="room; else noRoomSelected" class="room-grid" (window:resize)="onResize($event)">
-  <div class="chat" [style.height.px]="myInnerHeight">
+<div *ngIf="room; else noRoomSelected" class="room-grid">
+  <div class="chat" [appFullHeight]="70">
     <app-chat *ngIf="thread; else noThreadSelected" [stream]="thread.feed" (onSendMessage)="onSendMessage($event)"></app-chat>
   </div>
   <ng-template #noThreadSelected>

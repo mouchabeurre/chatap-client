@@ -5,9 +5,9 @@
   border-radius: 5px;
 }
 
-.stream > ul {
+.stream > ol {
   list-style: none;
-  margin-top: auto;
+  margin: 0 auto 0 auto;
   padding: 0;
   width: 100%;
 }
@@ -31,7 +31,7 @@
 .stream-message {
   min-height: 70px;
   border-radius: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
   display: grid;
   grid-template-columns: 70px auto;
   grid-template-rows: 35px 30px auto;
@@ -74,6 +74,9 @@
   grid-area: msg-content;
   justify-self: start;
   align-self: start;
+  padding: 0 10px 10px 0;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 .profile-image {

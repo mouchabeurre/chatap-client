@@ -14,7 +14,6 @@ export class ChatComponent implements OnInit {
   private fg: FormGroup;
   private new_message: FormControl;
 
-  private myInnerHeight: number;
   private whoami: string;
 
   get is_valid_message(): boolean { return this.new_message.errors && (this.new_message.dirty || this.new_message.touched); }
@@ -25,9 +24,7 @@ export class ChatComponent implements OnInit {
   constructor(
     private _authService: AuthService,
     private _fb: FormBuilder
-  ) {
-    this.myInnerHeight = window.innerHeight - 250;
-  }
+  ) { }
 
   ngOnInit() {
     this.whoami = this._authService.user.userIdentity;
@@ -39,16 +36,19 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  onResize(event) {
-    this.myInnerHeight = event.target.innerHeight - 250;
+  preventNewline(e) {
+    e.preventDefault();
+    this.onSubmit();
   }
 
   onSubmit() {
-    const response = {
-      content: this.fg.controls.new_message.value,
-      media: 'text'
+    if (this.fg.controls.new_message.value) {
+      const response = {
+        content: this.fg.controls.new_message.value,
+        media: 'text'
+      }
+      this.onSendMessage.emit(response);
     }
-    this.onSendMessage.emit(response);
     this.fg.reset();
   }
 

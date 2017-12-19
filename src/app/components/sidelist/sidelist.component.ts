@@ -11,7 +11,6 @@ import { SocketService } from '../../services/socket.service';
 })
 export class SidelistComponent implements OnInit {
 
-  private myInnerHeight: number;
   private toggle: { message: string, room_deployed: boolean };
   private query: string;
 
@@ -25,23 +24,13 @@ export class SidelistComponent implements OnInit {
   constructor(
     private socketService: SocketService
   ) {
-    this.myInnerHeight = window.innerHeight - 152;
     this.toggle = { message: 'show friends', room_deployed: true };
     this.rooms = [];
     this.friends = [];
+    this.current_room = null;
   }
 
   ngOnInit() {
-    // for (let i = 0; i < 15; i++) {
-    //   this.friends.push({
-    //     username: 'jdoe' + i,
-    //     online: true
-    //   });
-    //   this.rooms.push({
-    //     name: 'room name' + i,
-    //     id: 'z56z3er3z14' + i + 1
-    //   });
-    // }
     this.socketService.sidelist_stream.subscribe(
       (res: { event: string, data: any }) => {
         switch (res.event) {
@@ -64,6 +53,9 @@ export class SidelistComponent implements OnInit {
           case 'connection-friend':
             const index = this.friends.findIndex(user => user.username === res.data.user);
             this.friends[index].online = res.data.online;
+            break;
+          case 'get-room-ack':
+            this.current_room = res.data.room._id;
             break;
           case 'create-room-ack':
             this.socketService.joinRoomAction(res.data.room_id);
@@ -104,7 +96,6 @@ export class SidelistComponent implements OnInit {
   onChangeRoom(id: string) {
     console.log('changing room', id);
     this.socketService.getRoomAction(id);
-    this.current_room = id;
   }
 
   onChangeFriend(username: string) {
@@ -122,10 +113,6 @@ export class SidelistComponent implements OnInit {
 
   resetFilter() {
     this.query = '';
-  }
-
-  onResize(event) {
-    this.myInnerHeight = event.target.innerHeight - 152;
   }
 
 }

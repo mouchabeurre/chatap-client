@@ -140,6 +140,7 @@ export class SocketService {
   private getRoom() {
     this.listen('get-room-ack').subscribe(
       (res: { event: string, data: res.GET_ROOM }) => {
+        this.sidelistSubject.next(res);
         this.roomcontentSubject.next(res);
       }
     );
