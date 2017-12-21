@@ -19,6 +19,10 @@ export class SidelistComponent implements OnInit {
   private rooms: Room[];
   private current_room: string;
 
+  get height_offset(): number {
+    return this.toggle.room_deployed ? 151 : 111;
+  }
+
   constructor(
     public dialog: MatDialog,
     private socketService: SocketService
@@ -42,16 +46,18 @@ export class SidelistComponent implements OnInit {
             }
             break;
           case 'joined-rooms':
-            for (let i = 0; i < res.data.rooms.length; i++) {
-              this.rooms.push({
-                name: 'oui',
-                id: res.data.rooms[i]
-              });
+            if (res.data.rooms) {
+              for (let i = 0; i < res.data.rooms.length; i++) {
+                this.rooms.push({
+                  name: res.data.rooms[i].name,
+                  id: res.data.rooms[i]._id
+                });
+              }
             }
             break;
           case 'connection-friend':
-            const index = this.friends.findIndex(user => user.username === res.data.user);
-            this.friends[index].online = res.data.online;
+            const indexF = this.friends.findIndex(user => user.username === res.data.user);
+            this.friends[indexF].online = res.data.online;
             break;
           case 'get-room-ack':
             this.current_room = res.data.room._id;
@@ -59,7 +65,7 @@ export class SidelistComponent implements OnInit {
           case 'create-room-ack':
             this.socketService.joinRoomAction(res.data.room_id);
             this.rooms.push({
-              name: 'new',
+              name: res.data.room_name,
               id: res.data.room_id
             });
             if (res.data.guests) {
@@ -67,6 +73,10 @@ export class SidelistComponent implements OnInit {
                 this.socketService.addGuestAction(res.data.room_id, res.data.guests[i]);
               }
             }
+            break;
+          case 'rename-room-ack':
+            const indexRename = this.rooms.findIndex(room => room.id === res.data.room_id);
+            this.rooms[indexRename].name = res.data.room_name;
             break;
           case 'send-friend-request-ack':
             break;
@@ -78,14 +88,28 @@ export class SidelistComponent implements OnInit {
             break;
           case 'block-user-ack':
             break;
+          case 'join-room-ack':
+
+            break;
+          case 'leave-room-ack':
+            const indexR = this.rooms.findIndex(room => room.id === res.data.room_id);
+            if (this.current_room === res.data.room_id) {
+              this.socketService.mainMenu();
+            }
+            this.current_room = null;
+            this.rooms.splice(indexR, 1);
+            break;
           case 'remove-friend':
             break;
           case 'added-room':
             this.socketService.joinRoomAction(res.data.room_id);
             this.rooms.push({
-              name: 'new',
+              name: res.data.room_name,
               id: res.data.room_id
             });
+            break;
+          case 'main-menu':
+            this.current_room = null;
             break;
         }
       }

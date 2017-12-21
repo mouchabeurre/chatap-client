@@ -20,7 +20,7 @@
       <mat-icon aria-label="Add icon">add_box</mat-icon>
     </button>
   </div>
-  <div class="scroll white" [appFullHeight]="152">
+  <div class="scroll white" [appFullHeight]="height_offset">
     <mat-list *ngIf="toggle.room_deployed; else friendsView" class="side-mat-list">
       <app-rooms [rooms]="rooms" [query]="query" [currentRoom]="current_room" (onChangeRoom)="onChangeRoom($event)"></app-rooms>
     </mat-list>

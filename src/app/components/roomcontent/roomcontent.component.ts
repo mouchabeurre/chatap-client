@@ -80,6 +80,9 @@ export class RoomcontentComponent implements OnInit {
             break;
           case 'left-guest':
             break;
+          case 'main-menu':
+            this.room = this.thread = null;
+            break;
         }
       }
     )

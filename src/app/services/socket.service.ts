@@ -20,8 +20,8 @@ export class SocketService {
   public roomcontent_stream: Observable<any>;
   private roomcontentSubject: Subject<any>;
 
-  public notification_stream: Observable<any>;
-  private notificationSubject: Subject<any>;
+  public toolbar_stream: Observable<any>;
+  private toolbarSubject: Subject<any>;
 
   constructor(
     private _authService: AuthService
@@ -32,8 +32,8 @@ export class SocketService {
     this.sidelist_stream = this.sidelistSubject.asObservable();
     this.roomcontentSubject = new Subject();
     this.roomcontent_stream = this.roomcontentSubject.asObservable();
-    this.notificationSubject = new Subject();
-    this.notification_stream = this.notificationSubject.asObservable();
+    this.toolbarSubject = new Subject();
+    this.toolbar_stream = this.toolbarSubject.asObservable();
 
     this.init();
   }
@@ -43,6 +43,7 @@ export class SocketService {
     this.afterAuth();
     this.createRoom();
     this.getRoom();
+    this.renameRoom();
     this.createThread();
     this.getThread();
     this.sendThread();
@@ -51,6 +52,7 @@ export class SocketService {
     this.blockUser();
     this.addGuest();
     this.joinRoom();
+    this.leaveRoom();
     this.removeGuest();
   }
 
@@ -112,7 +114,7 @@ export class SocketService {
     this.listen('connection-friend').subscribe(
       (res: { event: string, data: res.CONNECTION_FRIEND }) => {
         this.sidelistSubject.next(res);
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
       }
     );
 
@@ -137,11 +139,23 @@ export class SocketService {
       this.socket.emit('create-room', { name: name });
     }
   }
+  private renameRoom() {
+    this.listen('rename-room-ack').subscribe(
+      (res: { event: string, data: res.RENAME_ROOM }) => {
+        this.sidelistSubject.next(res);
+        this.toolbarSubject.next(res);
+      }
+    );
+  }
+  public renameRoomAction(room_id: string, new_name: string) {
+    this.socket.emit('rename-room', { room_id: room_id, new_name: new_name });
+  }
   private getRoom() {
     this.listen('get-room-ack').subscribe(
       (res: { event: string, data: res.GET_ROOM }) => {
         this.sidelistSubject.next(res);
         this.roomcontentSubject.next(res);
+        this.toolbarSubject.next(res);
       }
     );
   }
@@ -168,6 +182,7 @@ export class SocketService {
     this.listen('get-thread-ack').subscribe(
       (res: { event: string, data: res.GET_THREAD }) => {
         this.roomcontentSubject.next(res);
+        this.toolbarSubject.next(res);
       }
     );
   }
@@ -200,13 +215,13 @@ export class SocketService {
     this.listen('send-friend-request-ack').subscribe(
       (res: { event: string, data: res.SEND_FRIEND_REQUEST }) => {
         this.sidelistSubject.next(res);
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
       }
     );
     this.listen('friend-request').subscribe(
       (res: { event: string, data: res.FRIEND_REQUEST }) => {
         this.sidelistSubject.next(res);
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
       }
     );
   }
@@ -215,13 +230,13 @@ export class SocketService {
     this.listen('reply-friend-request-ack').subscribe(
       (res: { event: string, data: res.REPLY_FRIEND_REQUEST }) => {
         this.sidelistSubject.next(res);
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
       }
     );
     this.listen('response-friend-request').subscribe(
       (res: { event: string, data: res.RESPONSE_FRIEND_REQUEST }) => {
         this.sidelistSubject.next(res);
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
       }
     );
   }
@@ -230,13 +245,13 @@ export class SocketService {
     this.listen('block-user-ack').subscribe(
       (res: { event: string, data: res.BLOCK_USER }) => {
         this.sidelistSubject.next(res);
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
       }
     );
     this.listen('remove-friend').subscribe(
       (res: { event: string, data: res.REMOVE_FRIEND }) => {
         this.sidelistSubject.next(res);
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
       }
     );
   }
@@ -244,7 +259,7 @@ export class SocketService {
   private addGuest() {
     this.listen('add-guest-ack').subscribe(
       (res: { event: string, data: res.SUCCESS }) => {
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
       }
     );
     this.listen('new-guest').subscribe(
@@ -254,7 +269,7 @@ export class SocketService {
     );
     this.listen('added-room').subscribe(
       (res: { event: string, data: res.ADDED_ROOM }) => {
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
         this.sidelistSubject.next(res);
       }
     );
@@ -266,25 +281,39 @@ export class SocketService {
   private joinRoom() {
     this.listen('join-room-ack').subscribe(
       (res: { event: string, data: res.JOIN_ROOM }) => {
-        this.notificationSubject.next(res);
-        this.roomcontentSubject.next(res);
+        this.sidelistSubject.next(res);
       }
     );
   }
   public joinRoomAction(room_id: string) {
     this.socket.emit('join-room', { room_id: room_id });
   }
+  private leaveRoom() {
+    this.listen('leave-room-ack').subscribe(
+      (res: { event: string, data: res.LEAVE_ROOM }) => {
+        this.sidelistSubject.next(res);
+      }
+    );
+  }
+  public leaveRoomAction(room_id: string) {
+    this.socket.emit('leave-room', { room_id: room_id });
+  }
+  public mainMenu() {
+    this.roomcontentSubject.next({ event: 'main-menu', data: null });
+    this.sidelistSubject.next({ event: 'main-menu', data: null });
+    this.toolbarSubject.next({ event: 'main-menu', data: null });
+  }
 
   private removeGuest() {
     this.listen('remove-guest-ack').subscribe(
       (res: { event: string, data: res.SUCCESS }) => {
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
         this.roomcontentSubject.next(res);
       }
     );
     this.listen('left-guest').subscribe(
       (res: { event: string, data: res.LEFT_GUEST }) => {
-        this.notificationSubject.next(res);
+        this.toolbarSubject.next(res);
         this.roomcontentSubject.next(res);
       }
     );

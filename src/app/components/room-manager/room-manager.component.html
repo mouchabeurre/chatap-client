@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>{{ title }}</h1>
+<div mat-dialog-content>
+  <form *ngIf="action == 'rename'" [formGroup]="fg">
+    <mat-form-field class="full-width">
+      <input matInput tabindex="1" placeholder="Name of the room" [(ngModel)]="data.room_name" formControlName="room_name" required>
+      <mat-error *ngIf="is_valid_name && room_name.errors.required">Required</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="beforeClose()" tabindex="2" class="to-uppercase" [disabled]="!fg.valid">save</button>
+  <button mat-button (click)="onNoClick()" tabindex="-1" class="to-uppercase" color="warn">cancel</button>
+</div>

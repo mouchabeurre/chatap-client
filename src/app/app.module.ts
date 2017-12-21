@@ -33,6 +33,8 @@ import { ScrollDownStreamDirective } from './directives/scroll-down-stream.direc
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ThreadCreationComponent } from './components/thread-creation/thread-creation.component';
 import { RoomCreationComponent } from './components/room-creation/room-creation.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { RoomManagerComponent } from './components/room-manager/room-manager.component';
 
 @NgModule({
   declarations: [
@@ -55,11 +57,15 @@ import { RoomCreationComponent } from './components/room-creation/room-creation.
     ScrollDownStreamDirective,
     ToolbarComponent,
     ThreadCreationComponent,
-    RoomCreationComponent
+    RoomCreationComponent,
+    ConfirmDialogComponent,
+    RoomManagerComponent
   ],
   entryComponents: [
     RoomCreationComponent,
-    ThreadCreationComponent
+    ThreadCreationComponent,
+    ConfirmDialogComponent,
+    RoomManagerComponent
   ],
   imports: [
     BrowserModule,

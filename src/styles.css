@@ -9,3 +9,8 @@ body {
 .to-uppercase {
   text-transform: uppercase;
 }
+
+.justify {
+  text-align: justify;
+  text-justify: inter-word;
+}

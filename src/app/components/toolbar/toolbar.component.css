@@ -1,0 +1,58 @@
+.toolbar-title {
+  grid-area: title;
+  justify-self: start;
+  overflow: hidden;
+  color: white;
+  padding-left: 10px;
+  padding-right: 8px;
+}
+
+.toolbar-notifications {
+  grid-area: notifications;
+  justify-self: center;
+}
+
+.toolbar-account {
+  grid-area: account;
+  justify-self: center;
+}
+
+.toolbar-grid {
+  display: grid;
+  grid-template-columns: minmax(200px, 4fr) auto 70px auto;
+  grid-template-rows: 70px;
+  grid-template-areas: 
+    "title . notifications account";
+  align-items: center;
+}
+
+.toolbar-title > div {
+  display: flex;
+  background-color: #3b61cc;
+  padding: 5px 8px;
+  border-radius: 3px;
+  box-shadow: -50px 0px 17px -19px #3056c0 inset;
+}
+
+.toolbar-room-menu {
+  align-self: center;
+  padding-left: 10px;
+}
+
+.toolbar-room-desc {
+  display: flex;  
+  flex-direction: column;
+}
+
+.toolbar-room-name {
+  font-size: 32px;
+  margin-top: -7px;
+  letter-spacing: -2px;
+  font-weight: bold;
+  align-self: flex-start;
+}
+
+.toolbar-room-id {
+  font-style: italic;
+  align-self: flex-end;
+}

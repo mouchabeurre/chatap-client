@@ -33,11 +33,7 @@ export class ThreadlistComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    console.log(this._threads);
-    console.log(this.mainThread);
-    console.log(this.currentThread);
-  }
+  ngOnInit() { }
 
   change(id: string) {
     if (this.currentThread !== id) {

@@ -20,7 +20,7 @@ export interface CONNECTED_FRIENDS extends SUCCESS {
 }
 
 export interface JOINED_ROOMS extends SUCCESS {
-  rooms: string[] | null;
+  rooms: { _id: string, name: string }[] | null;
 }
 
 export interface CONNECTION_FRIEND extends SUCCESS {
@@ -39,7 +39,13 @@ export interface GET_ROOM extends SUCCESS {
 
 export interface NEW_ROOM extends SUCCESS {
   room_id: string;
+  room_name: string;
   guests?: string[];
+}
+
+export interface RENAME_ROOM extends SUCCESS {
+  room_name: string;
+  room_id: string;
 }
 
 export interface GET_THREAD extends SUCCESS {
@@ -100,10 +106,16 @@ export interface ADD_GUEST extends SUCCESS {
 }
 
 export interface ADDED_ROOM extends SUCCESS {
+  room_name: string;
   room_id: string;
 }
 
 export interface JOIN_ROOM extends SUCCESS {
+  room_name: string;
+  room_id: string;
+}
+
+export interface LEAVE_ROOM extends SUCCESS {
   room_id: string;
 }
 
