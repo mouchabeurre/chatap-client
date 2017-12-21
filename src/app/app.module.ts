@@ -24,7 +24,6 @@ import { FriendsComponent } from './components/friends/friends.component';
 import { RoomcontentComponent } from './components/roomcontent/roomcontent.component';
 import { FriendfilterPipe } from './pipes/friendfilter.pipe';
 import { RoomfilterPipe } from './pipes/roomfilter.pipe';
-import { RoomcreationdialogComponent, Dialogview } from './components/roomcreationdialog/roomcreationdialog.component';
 import { ThreadlistComponent } from './components/threadlist/threadlist.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { StreamDatePipe } from './pipes/stream-date.pipe';
@@ -32,6 +31,8 @@ import { ShareChatVhDirective } from './directives/share-chat-vh.directive';
 import { FullHeightDirective } from './directives/full-height.directive';
 import { ScrollDownStreamDirective } from './directives/scroll-down-stream.directive';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { ThreadCreationComponent } from './components/thread-creation/thread-creation.component';
+import { RoomCreationComponent } from './components/room-creation/room-creation.component';
 
 @NgModule({
   declarations: [
@@ -46,17 +47,20 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     RoomcontentComponent,
     FriendfilterPipe,
     RoomfilterPipe,
-    RoomcreationdialogComponent,
-    Dialogview,
     ThreadlistComponent,
     ChatComponent,
     StreamDatePipe,
     ShareChatVhDirective,
     FullHeightDirective,
     ScrollDownStreamDirective,
-    ToolbarComponent
+    ToolbarComponent,
+    ThreadCreationComponent,
+    RoomCreationComponent
   ],
-  entryComponents: [Dialogview],
+  entryComponents: [
+    RoomCreationComponent,
+    ThreadCreationComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

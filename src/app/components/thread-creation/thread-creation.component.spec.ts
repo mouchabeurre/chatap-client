@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoomcreationdialogComponent } from './roomcreationdialog.component';
+import { ThreadCreationComponent } from './thread-creation.component';
 
-describe('RoomcreationdialogComponent', () => {
-  let component: RoomcreationdialogComponent;
-  let fixture: ComponentFixture<RoomcreationdialogComponent>;
+describe('ThreadCreationComponent', () => {
+  let component: ThreadCreationComponent;
+  let fixture: ComponentFixture<ThreadCreationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoomcreationdialogComponent ]
+      declarations: [ ThreadCreationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RoomcreationdialogComponent);
+    fixture = TestBed.createComponent(ThreadCreationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

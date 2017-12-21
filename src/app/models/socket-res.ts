@@ -47,7 +47,9 @@ export interface GET_THREAD extends SUCCESS {
 }
 
 export interface NEW_THREAD extends SUCCESS {
-  thread_id: string;
+  room_id: string;
+  _id: string;
+  title: string;
 }
 
 export interface GET_MESSAGE extends SUCCESS {

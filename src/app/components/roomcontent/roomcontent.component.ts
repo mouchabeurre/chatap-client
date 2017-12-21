@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { ThreadCreationComponent } from '../thread-creation/thread-creation.component';
 import { SocketService } from '../../services/socket.service';
 import { ROOM } from '../../models/room';
 import { THREAD } from '../../models/thread';
@@ -13,13 +15,19 @@ export class RoomcontentComponent implements OnInit {
 
   private room: ROOM;
   private thread: THREAD;
-  private _thread_list: { id: string, title: string }[];
 
-  get threads_list(): { id: string, title: string }[] | null {
+  get room_threads(): { _id: string, title: string }[] | null {
     if (!this.room) {
       return null;
     }
-    return this._thread_list;
+    return this.room.threads;
+  }
+
+  get room_mainthread(): { _id: string, title: string } | null {
+    if (!this.room) {
+      return null;
+    }
+    return this.room.mainthread;
   }
 
   get thread_id(): string | null {
@@ -30,11 +38,11 @@ export class RoomcontentComponent implements OnInit {
   }
 
   constructor(
+    public dialog: MatDialog,
     private socketService: SocketService
   ) {
     this.room = null;
     this.thread = null;
-    this._thread_list = [];
   }
 
   ngOnInit() {
@@ -45,11 +53,6 @@ export class RoomcontentComponent implements OnInit {
             break;
           case 'get-room-ack':
             this.room = res.data.room;
-            this._thread_list = [];
-            this._thread_list.push({ id: this.room.mainthread._id, title: this.room.mainthread.title });
-            for (let i = 0; i < this.room.threads.length; i++) {
-              this._thread_list.push({ id: this.room.threads[i]._id, title: this.room.threads[i].title });
-            }
             this.thread = null;
             break;
           case 'create-thread-ack':
@@ -58,6 +61,9 @@ export class RoomcontentComponent implements OnInit {
             this.thread = res.data.thread;
             break;
           case 'new-thread':
+            if (this.room !== null && this.room.id === res.data.room_id) {
+              this.room.threads.push({ _id: res.data._id, title: res.data.title });
+            }
             break;
           case 'send-thread-ack':
             break;
@@ -87,6 +93,22 @@ export class RoomcontentComponent implements OnInit {
   onSendMessage(loadout: { content: string, media: string }) {
     console.log('sending message', loadout.content);
     this.socketService.sendThreadAction(loadout.content, this.room.id, this.thread._id, loadout.media);
+  }
+
+  openThreadDialog() {
+    let dialogRef = this.dialog.open(ThreadCreationComponent, {
+      width: '350px',
+      data: {
+        room_name: this.room.name,
+        room_id: this.room.id
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res: { name: string }) => {
+      if (res && res.name) {
+        this.socketService.createThreadAction(res.name, this.room.id)
+      }
+    });
   }
 
 }

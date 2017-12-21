@@ -16,7 +16,7 @@
     <span>
       New room
     </span>
-    <button mat-icon-button (click)="newRoom()" color="primary">
+    <button mat-icon-button (click)="openRoomDialog()" color="primary">
       <mat-icon aria-label="Add icon">add_box</mat-icon>
     </button>
   </div>
@@ -30,5 +30,4 @@
       </mat-list>
     </ng-template>
   </div>
-  <app-roomcreationdialog [friends]="friends"></app-roomcreationdialog>
 </div>

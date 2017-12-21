@@ -1,5 +1,5 @@
-<div *ngIf="room; else noRoomSelected" [appFullHeight]="70" class="room-grid">
-  <div class="chat">
+<div *ngIf="room; else noRoomSelected" class="room-grid">
+  <div [appFullHeight]="70" class="chat">
     <app-chat *ngIf="thread; else noThreadSelected" [stream]="thread.feed" (onSendMessage)="onSendMessage($event)"></app-chat>
   </div>
   <ng-template #noThreadSelected>
@@ -7,11 +7,23 @@
       <h2>Select a thread</h2>
     </div>
   </ng-template>
-  <div class="guests scroll"></div>
-  <div class="threads scroll">
-    <mat-list class="thread-mat-list">
-      <app-threadlist [threads]="threads_list" [currentThread]="thread_id" (onChangeThread)="onChangeThread($event)"></app-threadlist>
-    </mat-list>
+  <div [appFullHeight]="70" class="guests"></div>
+  <div class="threads">
+    <div class="container">
+      <div class="item new-thread">
+        <span>
+          New thread
+        </span>
+        <button mat-icon-button (click)="openThreadDialog()" color="primary">
+          <mat-icon aria-label="Add icon">add_box</mat-icon>
+        </button>
+      </div>
+      <div [appFullHeight]="110" class="scroll">
+        <mat-list class="thread-mat-list">
+          <app-threadlist [threads]="room_threads" [mainThread]="room_mainthread" [currentThread]="thread_id" (onChangeThread)="onChangeThread($event)"></app-threadlist>
+        </mat-list>
+      </div>
+    </div>
   </div>
 </div>
 

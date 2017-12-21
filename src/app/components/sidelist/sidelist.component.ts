@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { RoomcreationdialogComponent } from '../roomcreationdialog/roomcreationdialog.component'
+import { MatDialog } from '@angular/material';
+import { RoomCreationComponent } from '../room-creation/room-creation.component';
 import { SocketService } from '../../services/socket.service';
 
 @Component({
@@ -18,10 +19,8 @@ export class SidelistComponent implements OnInit {
   private rooms: Room[];
   private current_room: string;
 
-  @ViewChild(RoomcreationdialogComponent)
-  private createDialog: RoomcreationdialogComponent;
-
   constructor(
+    public dialog: MatDialog,
     private socketService: SocketService
   ) {
     this.toggle = { message: 'show friends', room_deployed: true };
@@ -102,8 +101,23 @@ export class SidelistComponent implements OnInit {
     console.log('changing friend', username);
   }
 
-  newRoom() {
-    this.createDialog.openDialog();
+  openRoomDialog() {
+    let dialogRef = this.dialog.open(RoomCreationComponent, {
+      width: '350px',
+      data: {
+        friends: this.friends
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res: { name: string, guests: string[] }) => {
+      if (res && res.name) {
+        if (res.guests && res.guests.length > 0) {
+          this.socketService.createRoomAction(res.name, res.guests);
+        } else {
+          this.socketService.createRoomAction(res.name);
+        }
+      }
+    });
   }
 
   switch() {

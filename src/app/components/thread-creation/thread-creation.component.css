@@ -1,0 +1,19 @@
+.room-desc {
+  margin-top: 0;
+}
+
+.room-desc + ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+.emphasis {
+  padding-bottom: 5px;
+}
+
+.emphasis span {
+  background-color: rgb(213, 213, 213);
+  border-radius: 2px;
+  padding: 0 4px;
+}

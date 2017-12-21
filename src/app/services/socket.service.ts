@@ -161,7 +161,7 @@ export class SocketService {
       }
     );
   }
-  public createThreadAction(title: string, room_id: string[]) {
+  public createThreadAction(title: string, room_id: string) {
     this.socket.emit('create-thread', { title: title, room_id: room_id });
   }
   private getThread() {

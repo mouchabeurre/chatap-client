@@ -1,10 +1,12 @@
 .guests {
   grid-area: guests;
+  overflow: hidden;
   background: rgb(24, 22, 22);
 }
 
 .threads {
   grid-area: threads;
+  overflow: hidden;
   background: rgb(109, 107, 107);
 }
 
@@ -15,7 +17,7 @@
 
 .room-grid {
   display: grid;
-  grid-template-columns: 1fr 5fr 1fr;
+  grid-template-columns: minmax(200px, 1fr) 5fr minmax(200px, 1fr);
   grid-template-rows: auto;
   grid-template-areas: 
     "threads chat guests";
@@ -28,4 +30,15 @@
 
 .thread-mat-list {
   padding-top: 0px !important;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.new-thread {
+  width: 100%;
+  text-align: center;
 }

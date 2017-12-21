@@ -1,10 +1,20 @@
-<mat-list-item *ngFor="let thread of threads" (click)="change(thread.id)" class="thread-mat-list-item" [ngClass]="{
-  'selected-thread': currentThread == thread.id,
-  'not-selected-thread': currentThread != thread.id
+<mat-list-item (click)="change(mainThread._id)" class="thread-mat-list-item" [ngClass]="{
+  'selected-thread': currentThread == mainThread._id,
+  'not-selected-thread': currentThread != mainThread._id
+}">
+  <mat-icon matListIcon>chat</mat-icon>
+  <h3 matLine> {{ mainThread.title }} </h3>
+  <div matLine>
+    <small> {{ mainThread._id }} </small>
+  </div>
+</mat-list-item>
+<mat-list-item *ngFor="let thread of threads" (click)="change(thread._id)" class="thread-mat-list-item" [ngClass]="{
+  'selected-thread': currentThread == thread._id,
+  'not-selected-thread': currentThread != thread._id
 }">
   <mat-icon matListIcon>chat</mat-icon>
   <h3 matLine> {{ thread.title }} </h3>
-  <p matLine>
-    <span> {{ thread.id }} </span>
-  </p>
+  <div matLine>
+    <small> {{ thread._id }} </small>
+  </div>
 </mat-list-item>

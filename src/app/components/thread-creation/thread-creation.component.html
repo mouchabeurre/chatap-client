@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Create a thread</h1>
+<div mat-dialog-content>
+  <p class="room-desc">New thread for:</p>
+  <ul>
+    <li class="emphasis">Room name:
+      <span>{{ data.room_name }}</span>
+    </li>
+    <li class="emphasis">Room ID:
+      <span>{{ data.room_id }}</span>
+    </li>
+  </ul>
+  <form [formGroup]="fg">
+    <mat-form-field class="full-width">
+      <input matInput tabindex="1" placeholder="Name of the new thread" [(ngModel)]="data.name" formControlName="name" required>
+      <mat-error *ngIf="is_valid_name && name.errors.required">Required</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="beforeClose()" tabindex="2" class="to-uppercase" [disabled]="!fg.valid">create</button>
+  <button mat-button (click)="onNoClick()" tabindex="-1" class="to-uppercase" color="warn">cancel</button>
+</div>

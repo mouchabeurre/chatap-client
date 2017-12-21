@@ -1,5 +1,6 @@
 .sidelist {
   grid-area: sidelist;
+  overflow: hidden;
   background: rgb(24, 22, 22);
 }
 .toolbar {
@@ -12,7 +13,7 @@
 
 .global-grid {
   display: grid;
-  grid-template-columns: 250px auto;
+  grid-template-columns: minmax(200px, 1fr) 6fr;
   grid-template-rows: 70px auto;
   grid-template-areas: 
     "sidelist toolbar toolbar toolbar"
