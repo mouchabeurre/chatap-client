@@ -1,31 +1,7 @@
 <div class="toolbar-grid">
   <div class="toolbar-title">
-    <div *ngIf="room.name">
-      <div class="toolbar-room-desc">
-        <div class="toolbar-room-name">{{ room.name }}</div>
-        <small class="toolbar-room-id">{{ room.id }}</small>
-      </div>
-      <div class="toolbar-room-menu">
-        <button mat-icon-button [matMenuTriggerFor]="roomMenu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #roomMenu="matMenu">
-          <button mat-menu-item *ngIf="is_owner" (click)="openRoomNameEditor()">
-            <mat-icon>mode_edit</mat-icon>
-            <span>Edit name</span>
-          </button>
-          <button mat-menu-item *ngIf="is_owner">
-            <mat-icon>delete_forever</mat-icon>
-            <span>Delete</span>
-          </button>
-          <button mat-menu-item *ngIf="!is_owner" (click)="openConfirmLeave()">
-            <mat-icon>remove_circle</mat-icon>
-            <span>Leave</span>
-          </button>
-        </mat-menu>
-      </div>
-    </div>
+    <app-toolbar-title *ngIf="room.name" [room]="room"></app-toolbar-title>
   </div>
   <div class="toolbar-notifications">Notify</div>
-  <div class="toolbar-account">Acc</div>
+  <app-toolbar-account class="toolbar-account"></app-toolbar-account>
 </div>

@@ -1,0 +1,22 @@
+.toolbar-room-menu {
+  align-self: center;
+  padding-left: 10px;
+}
+
+.toolbar-room-desc {
+  display: flex;  
+  flex-direction: column;
+}
+
+.toolbar-room-name {
+  font-size: 32px;
+  margin-top: -7px;
+  letter-spacing: -2px;
+  font-weight: bold;
+  align-self: flex-start;
+}
+
+.toolbar-room-id {
+  font-style: italic;
+  align-self: flex-end;
+}

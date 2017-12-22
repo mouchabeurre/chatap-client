@@ -31,4 +31,5 @@ export class RoomsComponent implements OnInit {
 interface Room {
   name: string;
   id: string;
+  date: Date;
 }

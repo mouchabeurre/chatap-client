@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { RoomCreationComponent } from '../room-creation/room-creation.component';
 import { SocketService } from '../../services/socket.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'app-sidelist',
@@ -10,7 +12,8 @@ import { SocketService } from '../../services/socket.service';
   styleUrls: ['./sidelist.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SidelistComponent implements OnInit {
+export class SidelistComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<any> = new Subject();
 
   private toggle: { message: string, room_deployed: boolean };
   private query: string;
@@ -34,7 +37,9 @@ export class SidelistComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.socketService.sidelist_stream.subscribe(
+    this.socketService.sidelist_stream
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(
       (res: { event: string, data: any }) => {
         switch (res.event) {
           case 'connected-friends':
@@ -50,13 +55,15 @@ export class SidelistComponent implements OnInit {
               for (let i = 0; i < res.data.rooms.length; i++) {
                 this.rooms.push({
                   name: res.data.rooms[i].name,
-                  id: res.data.rooms[i]._id
+                  id: res.data.rooms[i]._id,
+                  date: res.data.rooms[i].date
                 });
               }
             }
             break;
           case 'connection-friend':
             const indexF = this.friends.findIndex(user => user.username === res.data.user);
+            console.log(this.friends, res.data.user, indexF);
             this.friends[indexF].online = res.data.online;
             break;
           case 'get-room-ack':
@@ -66,7 +73,8 @@ export class SidelistComponent implements OnInit {
             this.socketService.joinRoomAction(res.data.room_id);
             this.rooms.push({
               name: res.data.room_name,
-              id: res.data.room_id
+              id: res.data.room_id,
+              date: res.data.room_date
             });
             if (res.data.guests) {
               for (let i = 0; i < res.data.guests.length; i++) {
@@ -105,7 +113,8 @@ export class SidelistComponent implements OnInit {
             this.socketService.joinRoomAction(res.data.room_id);
             this.rooms.push({
               name: res.data.room_name,
-              id: res.data.room_id
+              id: res.data.room_id,
+              date: res.data.room_date
             });
             break;
           case 'main-menu':
@@ -113,7 +122,7 @@ export class SidelistComponent implements OnInit {
             break;
         }
       }
-    );
+      );
   }
 
   onChangeRoom(id: string) {
@@ -153,6 +162,11 @@ export class SidelistComponent implements OnInit {
     this.query = '';
   }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
 }
 
 interface Friend {
@@ -163,4 +177,5 @@ interface Friend {
 interface Room {
   name: string;
   id: string;
+  date: Date;
 }

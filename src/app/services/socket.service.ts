@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AuthService } from './auth.service'
 import { environment } from "../../environments/environment";
@@ -12,6 +13,7 @@ export class SocketService {
 
   private socket;
 
+  private ngUnsubscribe: Subject<any> = new Subject();
   private connected: BehaviorSubject<boolean>;
 
   public sidelist_stream: Observable<any>;
@@ -34,12 +36,20 @@ export class SocketService {
     this.roomcontent_stream = this.roomcontentSubject.asObservable();
     this.toolbarSubject = new Subject();
     this.toolbar_stream = this.toolbarSubject.asObservable();
+  }
 
-    this.init();
+  public login() {
+    this.connection();
+  }
+  public logout() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    this.socket.disconnect();
+    this.socket = null;
+    this.connected.next(false);
   }
 
   private init() {
-    this.connection();
     this.afterAuth();
     this.createRoom();
     this.getRoom();
@@ -71,27 +81,28 @@ export class SocketService {
   private connection() {
     this.socket = io(environment.socket.baseUrl);
 
-    this.listen('connect').subscribe(
+    this.listen('connect').takeUntil(this.ngUnsubscribe).subscribe(
       res => {
         this.socket.emit('authenticate', { token: this._authService.token });
       }
     );
-    this.listen('authenticated').subscribe(
+    this.listen('authenticated').takeUntil(this.ngUnsubscribe).subscribe(
       res => {
         this.connected.next(true);
+        this.init();
       }
     );
-    this.listen('unauthorized').subscribe(
+    this.listen('unauthorized').takeUntil(this.ngUnsubscribe).subscribe(
       res => {
         console.log(res);
       }
     );
-    this.listen('disconnect').subscribe(
+    this.listen('disconnect').takeUntil(this.ngUnsubscribe).subscribe(
       res => {
         this.connected.next(false);
       }
     );
-    this.listen('error-manager').subscribe(
+    this.listen('error-manager').takeUntil(this.ngUnsubscribe).subscribe(
       res => {
         console.log(res);
       }
@@ -99,26 +110,26 @@ export class SocketService {
   }
 
   private afterAuth() {
-    this.listen('connected-friends').subscribe(
+    this.listen('connected-friends').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.CONNECTED_FRIENDS }) => {
         this.sidelistSubject.next(res);
       }
     );
 
-    this.listen('joined-rooms').subscribe(
+    this.listen('joined-rooms').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.JOINED_ROOMS }) => {
         this.sidelistSubject.next(res);
       }
     );
 
-    this.listen('connection-friend').subscribe(
+    this.listen('connection-friend').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.CONNECTION_FRIEND }) => {
         this.sidelistSubject.next(res);
         this.toolbarSubject.next(res);
       }
     );
 
-    this.listen('connection-guest').subscribe(
+    this.listen('connection-guest').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.CONNECTION_GUEST }) => {
         this.roomcontentSubject.next(res);
       }
@@ -126,7 +137,7 @@ export class SocketService {
   }
 
   private createRoom() {
-    this.listen('create-room-ack').subscribe(
+    this.listen('create-room-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.NEW_ROOM }) => {
         this.sidelistSubject.next(res);
       }
@@ -140,7 +151,7 @@ export class SocketService {
     }
   }
   private renameRoom() {
-    this.listen('rename-room-ack').subscribe(
+    this.listen('rename-room-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.RENAME_ROOM }) => {
         this.sidelistSubject.next(res);
         this.toolbarSubject.next(res);
@@ -151,7 +162,7 @@ export class SocketService {
     this.socket.emit('rename-room', { room_id: room_id, new_name: new_name });
   }
   private getRoom() {
-    this.listen('get-room-ack').subscribe(
+    this.listen('get-room-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.GET_ROOM }) => {
         this.sidelistSubject.next(res);
         this.roomcontentSubject.next(res);
@@ -164,12 +175,12 @@ export class SocketService {
   }
 
   private createThread() {
-    this.listen('create-thread-ack').subscribe(
+    this.listen('create-thread-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.SUCCESS }) => {
         this.roomcontentSubject.next(res);
       }
     );
-    this.listen('new-thread').subscribe(
+    this.listen('new-thread').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.NEW_THREAD }) => {
         this.roomcontentSubject.next(res);
       }
@@ -179,7 +190,7 @@ export class SocketService {
     this.socket.emit('create-thread', { title: title, room_id: room_id });
   }
   private getThread() {
-    this.listen('get-thread-ack').subscribe(
+    this.listen('get-thread-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.GET_THREAD }) => {
         this.roomcontentSubject.next(res);
         this.toolbarSubject.next(res);
@@ -191,12 +202,12 @@ export class SocketService {
   }
 
   private sendThread() {
-    this.listen('send-thread-ack').subscribe(
+    this.listen('send-thread-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.SUCCESS }) => {
         this.roomcontentSubject.next(res);
       }
     );
-    this.listen('new-message').subscribe(
+    this.listen('new-message').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.NEW_MESSAGE }) => {
         this.roomcontentSubject.next(res);
       }
@@ -212,13 +223,13 @@ export class SocketService {
   }
 
   private sendFriendRequest() {
-    this.listen('send-friend-request-ack').subscribe(
+    this.listen('send-friend-request-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.SEND_FRIEND_REQUEST }) => {
         this.sidelistSubject.next(res);
         this.toolbarSubject.next(res);
       }
     );
-    this.listen('friend-request').subscribe(
+    this.listen('friend-request').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.FRIEND_REQUEST }) => {
         this.sidelistSubject.next(res);
         this.toolbarSubject.next(res);
@@ -227,13 +238,13 @@ export class SocketService {
   }
 
   private replyFriendRequest() {
-    this.listen('reply-friend-request-ack').subscribe(
+    this.listen('reply-friend-request-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.REPLY_FRIEND_REQUEST }) => {
         this.sidelistSubject.next(res);
         this.toolbarSubject.next(res);
       }
     );
-    this.listen('response-friend-request').subscribe(
+    this.listen('response-friend-request').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.RESPONSE_FRIEND_REQUEST }) => {
         this.sidelistSubject.next(res);
         this.toolbarSubject.next(res);
@@ -242,13 +253,13 @@ export class SocketService {
   }
 
   private blockUser() {
-    this.listen('block-user-ack').subscribe(
+    this.listen('block-user-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.BLOCK_USER }) => {
         this.sidelistSubject.next(res);
         this.toolbarSubject.next(res);
       }
     );
-    this.listen('remove-friend').subscribe(
+    this.listen('remove-friend').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.REMOVE_FRIEND }) => {
         this.sidelistSubject.next(res);
         this.toolbarSubject.next(res);
@@ -257,17 +268,17 @@ export class SocketService {
   }
 
   private addGuest() {
-    this.listen('add-guest-ack').subscribe(
+    this.listen('add-guest-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.SUCCESS }) => {
         this.toolbarSubject.next(res);
       }
     );
-    this.listen('new-guest').subscribe(
+    this.listen('new-guest').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.ADD_GUEST }) => {
         this.roomcontentSubject.next(res);
       }
     );
-    this.listen('added-room').subscribe(
+    this.listen('added-room').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.ADDED_ROOM }) => {
         this.toolbarSubject.next(res);
         this.sidelistSubject.next(res);
@@ -279,7 +290,7 @@ export class SocketService {
   }
 
   private joinRoom() {
-    this.listen('join-room-ack').subscribe(
+    this.listen('join-room-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.JOIN_ROOM }) => {
         this.sidelistSubject.next(res);
       }
@@ -289,7 +300,7 @@ export class SocketService {
     this.socket.emit('join-room', { room_id: room_id });
   }
   private leaveRoom() {
-    this.listen('leave-room-ack').subscribe(
+    this.listen('leave-room-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.LEAVE_ROOM }) => {
         this.sidelistSubject.next(res);
       }
@@ -305,13 +316,13 @@ export class SocketService {
   }
 
   private removeGuest() {
-    this.listen('remove-guest-ack').subscribe(
+    this.listen('remove-guest-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.SUCCESS }) => {
         this.toolbarSubject.next(res);
         this.roomcontentSubject.next(res);
       }
     );
-    this.listen('left-guest').subscribe(
+    this.listen('left-guest').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.LEFT_GUEST }) => {
         this.toolbarSubject.next(res);
         this.roomcontentSubject.next(res);

@@ -35,6 +35,8 @@ import { ThreadCreationComponent } from './components/thread-creation/thread-cre
 import { RoomCreationComponent } from './components/room-creation/room-creation.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { RoomManagerComponent } from './components/room-manager/room-manager.component';
+import { ToolbarTitleComponent } from './components/toolbar-title/toolbar-title.component';
+import { ToolbarAccountComponent } from './components/toolbar-account/toolbar-account.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { RoomManagerComponent } from './components/room-manager/room-manager.com
     ThreadCreationComponent,
     RoomCreationComponent,
     ConfirmDialogComponent,
-    RoomManagerComponent
+    RoomManagerComponent,
+    ToolbarTitleComponent,
+    ToolbarAccountComponent
   ],
   entryComponents: [
     RoomCreationComponent,

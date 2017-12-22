@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ThreadCreationComponent } from '../thread-creation/thread-creation.component';
 import { SocketService } from '../../services/socket.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 import { ROOM } from '../../models/room';
 import { THREAD } from '../../models/thread';
 
@@ -11,7 +13,8 @@ import { THREAD } from '../../models/thread';
   styleUrls: ['./roomcontent.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class RoomcontentComponent implements OnInit {
+export class RoomcontentComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<any> = new Subject();
 
   private room: ROOM;
   private thread: THREAD;
@@ -46,7 +49,9 @@ export class RoomcontentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.socketService.roomcontent_stream.subscribe(
+    this.socketService.roomcontent_stream
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(
       (res: { event: string, data: any }) => {
         switch (res.event) {
           case 'connection-guest':
@@ -85,7 +90,7 @@ export class RoomcontentComponent implements OnInit {
             break;
         }
       }
-    )
+      )
   }
 
   onChangeThread(thread_id: string) {
@@ -112,6 +117,11 @@ export class RoomcontentComponent implements OnInit {
         this.socketService.createThreadAction(res.name, this.room.id)
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

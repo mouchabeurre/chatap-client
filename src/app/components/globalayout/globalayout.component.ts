@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { SocketService } from '../../services/socket.service';
 
 @Component({
   selector: 'app-globalayout',
@@ -8,7 +9,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class GlobalayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private socketService: SocketService
+  ) {
+    this.socketService.login();
+  }
 
   ngOnInit() {
   }
