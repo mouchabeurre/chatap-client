@@ -56,6 +56,8 @@ export class SocketService {
     this.renameRoom();
     this.createThread();
     this.getThread();
+    this.renameThread();
+    this.deleteThread();
     this.sendThread();
     this.sendFriendRequest();
     this.replyFriendRequest();
@@ -154,6 +156,7 @@ export class SocketService {
     this.listen('rename-room-ack').takeUntil(this.ngUnsubscribe).subscribe(
       (res: { event: string, data: res.RENAME_ROOM }) => {
         this.sidelistSubject.next(res);
+        this.roomcontentSubject.next(res);
         this.toolbarSubject.next(res);
       }
     );
@@ -188,6 +191,36 @@ export class SocketService {
   }
   public createThreadAction(title: string, room_id: string) {
     this.socket.emit('create-thread', { title: title, room_id: room_id });
+  }
+  private renameThread() {
+    this.listen('thread-renamed').takeUntil(this.ngUnsubscribe).subscribe(
+      (res: { event: string, data: res.SUCCESS }) => {
+        this.roomcontentSubject.next(res);
+      }
+    );
+    this.listen('rename-thread-ack').takeUntil(this.ngUnsubscribe).subscribe(
+      (res: { event: string, data: res.RENAME_THREAD }) => {
+        this.roomcontentSubject.next(res);
+      }
+    );
+  }
+  public renameThreadAction(room_id: string, thread_id: string, new_name: string) {
+    this.socket.emit('rename-thread', { room_id: room_id, thread_id: thread_id, new_name: new_name });
+  }
+  private deleteThread() {
+    this.listen('delete-thread-ack').takeUntil(this.ngUnsubscribe).subscribe(
+      (res: { event: string, data: res.SUCCESS }) => {
+        this.roomcontentSubject.next(res);
+      }
+    );
+    this.listen('deleted-thread').takeUntil(this.ngUnsubscribe).subscribe(
+      (res: { event: string, data: res.DELETE_THREAD }) => {
+        this.roomcontentSubject.next(res);
+      }
+    );
+  }
+  public deleteThreadAction(room_id: string, thread_id: string) {
+    this.socket.emit('delete-thread', { room_id: room_id, thread_id: thread_id });
   }
   private getThread() {
     this.listen('get-thread-ack').takeUntil(this.ngUnsubscribe).subscribe(

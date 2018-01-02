@@ -42,3 +42,12 @@
   width: 100%;
   text-align: center;
 }
+
+.new-guests {
+  width: 100%;
+  text-align: center;
+}
+
+.new-guests > span {
+  color: #c7c7c7;
+}

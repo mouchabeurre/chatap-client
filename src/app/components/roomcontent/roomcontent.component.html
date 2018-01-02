@@ -7,10 +7,26 @@
       <h2>Select a thread</h2>
     </div>
   </ng-template>
-  <div [appFullHeight]="70" class="guests"></div>
+  <div class="guests">
+    <div class="container">
+      <div *ngIf="is_super_guest" class="item new-guests">
+        <span class="white">
+          Add guests
+        </span>
+        <button mat-icon-button (click)="null" color="primary">
+          <mat-icon aria-label="Add icon">add_box</mat-icon>
+        </button>
+      </div>
+      <div [appFullHeight]="110" class="scroll white">
+        <mat-list dense class="thread-mat-list">
+          <app-guestlist [guests]="room_guests"></app-guestlist>
+        </mat-list>
+      </div>
+    </div>
+  </div>
   <div class="threads">
     <div class="container">
-      <div class="item new-thread">
+      <div *ngIf="is_super_guest" class="item new-thread">
         <span>
           New thread
         </span>
@@ -20,7 +36,8 @@
       </div>
       <div [appFullHeight]="110" class="scroll">
         <mat-list class="thread-mat-list">
-          <app-threadlist [threads]="room_threads" [mainThread]="room_mainthread" [currentThread]="thread_id" (onChangeThread)="onChangeThread($event)"></app-threadlist>
+          <app-threadlist [threads]="room_threads" [mainThread]="room_mainthread" [currentThread]="thread_id" [isSuperGuest]="is_super_guest"
+            [roomId]="room_id" (onChangeThread)="onChangeThread($event)"></app-threadlist>
         </mat-list>
       </div>
     </div>

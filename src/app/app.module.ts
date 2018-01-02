@@ -37,6 +37,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { RoomManagerComponent } from './components/room-manager/room-manager.component';
 import { ToolbarTitleComponent } from './components/toolbar-title/toolbar-title.component';
 import { ToolbarAccountComponent } from './components/toolbar-account/toolbar-account.component';
+import { GuestlistComponent } from './components/guestlist/guestlist.component';
+import { ThreadManagerComponent } from './components/thread-manager/thread-manager.component';
 
 @NgModule({
   declarations: [
@@ -63,13 +65,16 @@ import { ToolbarAccountComponent } from './components/toolbar-account/toolbar-ac
     ConfirmDialogComponent,
     RoomManagerComponent,
     ToolbarTitleComponent,
-    ToolbarAccountComponent
+    ToolbarAccountComponent,
+    GuestlistComponent,
+    ThreadManagerComponent
   ],
   entryComponents: [
     RoomCreationComponent,
     ThreadCreationComponent,
     ConfirmDialogComponent,
-    RoomManagerComponent
+    RoomManagerComponent,
+    ThreadManagerComponent
   ],
   imports: [
     BrowserModule,

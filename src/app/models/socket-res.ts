@@ -63,6 +63,17 @@ export interface NEW_THREAD extends SUCCESS {
   title: string;
 }
 
+export interface RENAME_THREAD extends SUCCESS {
+  thread_name: string;
+  thread_id: string;
+  room_id: string;
+}
+
+export interface DELETE_THREAD extends SUCCESS {
+  thread_id: string;
+  room_id: string;
+}
+
 export interface GET_MESSAGE extends SUCCESS {
   message: MESSAGE;
 }

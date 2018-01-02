@@ -3,8 +3,6 @@
   justify-self: start;
   overflow: hidden;
   color: white;
-  padding-left: 10px;
-  padding-right: 8px;
 }
 
 .toolbar-notifications {
@@ -24,6 +22,7 @@
   grid-template-areas: 
     "title . notifications account";
   align-items: center;
+  padding: 0 6px;
 }
 
 .toolbar-title > app-toolbar-title {

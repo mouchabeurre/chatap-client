@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ThreadCreationComponent } from '../thread-creation/thread-creation.component';
+import { AuthService } from '../../services/auth.service';
 import { SocketService } from '../../services/socket.service';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
@@ -18,6 +19,13 @@ export class RoomcontentComponent implements OnInit, OnDestroy {
 
   private room: ROOM;
   private thread: THREAD;
+
+  get room_id(): string {
+    if (!this.room) {
+      return null;
+    }
+    return this.room.id;
+  }
 
   get room_threads(): { _id: string, title: string }[] | null {
     if (!this.room) {
@@ -40,8 +48,21 @@ export class RoomcontentComponent implements OnInit, OnDestroy {
     return this.thread._id;
   }
 
+  get is_super_guest(): boolean {
+    const index = this.room.guests.findIndex(guest => guest.user === this._authService.user.userIdentity);
+    return this.room.guests[index].privilege !== 'basic';
+  }
+
+  get room_guests(): { user: string, privilege: string }[] | null {
+    if (!this.room) {
+      return null;
+    }
+    return this.room.guests;
+  }
+
   constructor(
     public dialog: MatDialog,
+    private _authService: AuthService,
     private socketService: SocketService
   ) {
     this.room = null;
@@ -60,10 +81,33 @@ export class RoomcontentComponent implements OnInit, OnDestroy {
             this.room = res.data.room;
             this.thread = null;
             break;
+          case 'rename-room-ack':
+            if (this.room !== null && this.room.id === res.data.room_id) {
+              this.room.name = res.data.room_name;
+            }
+            break;
           case 'create-thread-ack':
             break;
           case 'get-thread-ack':
             this.thread = res.data.thread;
+            break;
+          case 'thread-renamed':
+            if (this.room !== null && this.room.id === res.data.room_id) {
+              const indexT = this.room.threads.findIndex(thread => thread._id === res.data.thread_id);
+              this.room.threads[indexT].title = res.data.thread_name;
+              if (this.thread !== null && this.thread._id === res.data.thread_id) {
+                this.thread.title = res.data.thread_name;
+              }
+            }
+            break;
+          case 'deleted-thread':
+            if (this.room !== null && this.room.id === res.data.room_id) {
+              const indexT = this.room.threads.findIndex(thread => thread._id === res.data.thread_id);
+              if (this.thread._id === res.data.thread_id) {
+                this.thread = null;
+              }
+              this.room.threads.splice(indexT, 1);
+            }
             break;
           case 'new-thread':
             if (this.room !== null && this.room.id === res.data.room_id) {

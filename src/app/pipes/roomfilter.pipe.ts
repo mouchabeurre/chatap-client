@@ -10,7 +10,7 @@ export class RoomfilterPipe implements PipeTransform {
       return items;
     }
     return items.filter(item => {
-      if (item.name.indexOf(query) !== -1 || item.id.indexOf(query) !== -1) {
+      if (item.name.indexOf(query) !== -1) {
         return item;
       }
       return false;

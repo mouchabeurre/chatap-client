@@ -13,7 +13,7 @@ export class StreamDatePipe implements PipeTransform {
     const minutes = (tmpM < 10) ? '0' + tmpM : tmpM;
     const tmpH = d.getHours();
     const hours = (tmpH < 10) ? '0' + tmpH : tmpH;
-    const days = now.getDate() - d.getDate();
+    const days = Math.abs(now.getDate() - d.getDate());
     if (days < 1) {
       prefix = 'Today';
     } else if (days < 2) {

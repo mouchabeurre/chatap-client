@@ -3,18 +3,35 @@
   'not-selected-thread': currentThread != mainThread._id
 }">
   <mat-icon matListIcon>chat</mat-icon>
-  <h3 matLine> {{ mainThread.title }} </h3>
+  <h3 matLine>{{ mainThread.title }}</h3>
   <div matLine>
-    <small> {{ mainThread._id }} </small>
+    <small>{{ mainThread._id }}</small>
   </div>
+  <button mat-icon-button *ngIf="currentThread == mainThread._id && isSuperGuest" [matMenuTriggerFor]="threadMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
 </mat-list-item>
 <mat-list-item *ngFor="let thread of threads" (click)="change(thread._id)" class="thread-mat-list-item" [ngClass]="{
   'selected-thread': currentThread == thread._id,
   'not-selected-thread': currentThread != thread._id
 }">
   <mat-icon matListIcon>chat</mat-icon>
-  <h3 matLine> {{ thread.title }} </h3>
+  <h3 matLine>{{ thread.title }}</h3>
   <div matLine>
-    <small> {{ thread._id }} </small>
+    <small>{{ thread._id }}</small>
   </div>
+  <button mat-icon-button *ngIf="currentThread == thread._id && isSuperGuest" [matMenuTriggerFor]="threadMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
 </mat-list-item>
+
+<mat-menu #threadMenu="matMenu">
+  <button mat-menu-item (click)="openThreadNameEditor()">
+    <mat-icon>mode_edit</mat-icon>
+    <span>Edit name</span>
+  </button>
+  <button mat-menu-item (click)="openConfirmDelete()">
+    <mat-icon>delete_forever</mat-icon>
+    <span>Delete</span>
+  </button>
+</mat-menu>
