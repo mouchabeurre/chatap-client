@@ -29,16 +29,24 @@ export interface JOINED_ROOMS extends SUCCESS {
 
 export interface CONNECTION_FRIEND extends SUCCESS {
   user: string;
-  online: boolean;
+  status: boolean;
 }
 
 export interface CONNECTION_GUEST extends SUCCESS {
   user: string;
-  online: boolean;
+  status: boolean;
+  room_id: string;
 }
 
 export interface GET_ROOM extends SUCCESS {
   room: ROOM;
+}
+
+export interface GET_GUESTS extends SUCCESS {
+  guests: [{
+    user: string;
+    status: boolean;
+  }];
 }
 
 export interface NEW_ROOM extends SUCCESS {

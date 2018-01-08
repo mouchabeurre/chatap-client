@@ -19,6 +19,7 @@ export class RoomcontentComponent implements OnInit, OnDestroy {
 
   private room: ROOM;
   private thread: THREAD;
+  private guests: { user: string, privilege: string, status: gStatus }[];
 
   get room_id(): string {
     if (!this.room) {
@@ -57,7 +58,7 @@ export class RoomcontentComponent implements OnInit, OnDestroy {
     if (!this.room) {
       return null;
     }
-    return this.room.guests;
+    return this.guests;
   }
 
   constructor(
@@ -67,6 +68,7 @@ export class RoomcontentComponent implements OnInit, OnDestroy {
   ) {
     this.room = null;
     this.thread = null;
+    this.guests = [];
   }
 
   ngOnInit() {
@@ -76,10 +78,30 @@ export class RoomcontentComponent implements OnInit, OnDestroy {
       (res: { event: string, data: any }) => {
         switch (res.event) {
           case 'connection-guest':
+            if (this.room !== null && this.room.id === res.data.room_id) {
+              const i = this.guests.findIndex(guest => guest.user === res.data.user);
+              if (i > -1) {
+                this.guests[i].status = res.data.online ? gStatus.online : gStatus.offline;;
+              }
+            }
             break;
           case 'get-room-ack':
             this.room = res.data.room;
             this.thread = null;
+            this.guests = [];
+            for (let i = 0; i < res.data.room.guests.length; i++) {
+              this.guests.push({
+                user: res.data.room.guests[i].user,
+                privilege: res.data.room.guests[i].privilege,
+                status: gStatus.offline
+              });
+            }
+            break;
+          case 'get-guests-ack':
+            res.data.guests.map(guest => {
+              const i = this.guests.findIndex(thisGuest => thisGuest.user === guest.user);
+              this.guests[i].status = guest.status ? gStatus.online : gStatus.offline;
+            });
             break;
           case 'rename-room-ack':
             if (this.room !== null && this.room.id === res.data.room_id) {
@@ -94,7 +116,11 @@ export class RoomcontentComponent implements OnInit, OnDestroy {
           case 'thread-renamed':
             if (this.room !== null && this.room.id === res.data.room_id) {
               const indexT = this.room.threads.findIndex(thread => thread._id === res.data.thread_id);
-              this.room.threads[indexT].title = res.data.thread_name;
+              if (indexT < 0) {
+                this.room.mainthread.title = res.data.thread_name
+              } else {
+                this.room.threads[indexT].title = res.data.thread_name;
+              }
               if (this.thread !== null && this.thread._id === res.data.thread_id) {
                 this.thread.title = res.data.thread_name;
               }
@@ -130,7 +156,7 @@ export class RoomcontentComponent implements OnInit, OnDestroy {
           case 'left-guest':
             break;
           case 'main-menu':
-            this.room = this.thread = null;
+            this.room = this.thread = this.guests = null;
             break;
         }
       }
@@ -168,4 +194,11 @@ export class RoomcontentComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
+}
+
+enum gStatus {
+  offline = 'offline',
+  online = 'online',
+  busy = 'busy',
+  away = 'away'
 }

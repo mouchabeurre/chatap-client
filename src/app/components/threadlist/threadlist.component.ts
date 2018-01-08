@@ -54,20 +54,32 @@ export class ThreadlistComponent implements OnInit {
   }
 
   openThreadNameEditor() {
+    let title;
     const indexT = this._threads.findIndex(thread => thread._id === this.currentThread);
+    if (indexT < 0) {
+      title = this.mainThread.title;
+    } else {
+      title = this._threads[indexT].title
+    }
     let dialogRef = this.dialog.open(ThreadManagerComponent, {
       width: '350px',
       data: {
         action: 'rename',
         title: 'Edit thread name',
         thread_id: this.currentThread,
-        thread_name: this._threads[indexT].title
+        thread_name: title
       }
     });
 
     dialogRef.afterClosed().subscribe((res: { thread_name: string, thread_id: string }) => {
+      let title;
       const indexT = this._threads.findIndex(thread => thread._id === this.currentThread);
-      if (res && res.thread_name && res.thread_name !== this._threads[indexT].title) {
+      if (indexT < 0) {
+        title = this.mainThread.title;
+      } else {
+        title = this._threads[indexT].title
+      }
+      if (res && res.thread_name && res.thread_name !== title) {
         this.socketService.renameThreadAction(this.roomId, res.thread_id, res.thread_name);
       }
     });

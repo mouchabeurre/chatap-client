@@ -172,6 +172,11 @@ export class SocketService {
         this.toolbarSubject.next(res);
       }
     );
+    this.listen('get-guests-ack').takeUntil(this.ngUnsubscribe).subscribe(
+      (res: { event: string, data: res.GET_GUESTS }) => {
+        this.roomcontentSubject.next(res);
+      }
+    );
   }
   public getRoomAction(room_id: string) {
     this.socket.emit('get-room', { room_id: room_id });

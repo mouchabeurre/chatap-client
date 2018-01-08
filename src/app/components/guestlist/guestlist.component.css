@@ -13,7 +13,15 @@
 }
 
 .online-orb {
-  background-color: rgb(0, 255, 55);
+  background-color: rgb(25, 211, 124);
+}
+
+.busy-orb {
+  background-color: rgb(211, 31, 25);
+}
+
+.away-orb {
+  background-color: rgb(211, 99, 25);
 }
 
 .profile-image {

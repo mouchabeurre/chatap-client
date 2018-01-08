@@ -63,7 +63,6 @@ export class SidelistComponent implements OnInit, OnDestroy {
             break;
           case 'connection-friend':
             const indexF = this.friends.findIndex(user => user.username === res.data.user);
-            console.log(this.friends, res.data.user, indexF);
             this.friends[indexF].online = res.data.online;
             break;
           case 'get-room-ack':

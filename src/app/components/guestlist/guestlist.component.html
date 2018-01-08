@@ -2,7 +2,11 @@
   <div matListAvatar class="profile-image">
     <img src="https://i.imgur.com/39mUV8g.jpg" alt="kitten">
   </div>
-  <div matLine class="connection-orb"></div>
+  <div matLine class="connection-orb" [ngClass]="{
+    'online-orb': guest.status === status.online,
+    'busy-orb': guest.status === status.busy,
+    'away-orb': guest.status === status.away
+  }"></div>
   <h3 matLine>{{ guest.user }}</h3>
   <small matLine>{{ guest.privilege }}</small>
 </mat-list-item>

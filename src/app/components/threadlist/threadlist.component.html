@@ -30,7 +30,7 @@
     <mat-icon>mode_edit</mat-icon>
     <span>Edit name</span>
   </button>
-  <button mat-menu-item (click)="openConfirmDelete()">
+  <button mat-menu-item (click)="openConfirmDelete()" *ngIf="currentThread !== mainThread._id">
     <mat-icon>delete_forever</mat-icon>
     <span>Delete</span>
   </button>
