@@ -1,5 +1,5 @@
 <div appShareChatVh>
-  <div appScrollDownStream class="stream scroll">
+  <div appScrollDownStream *ngIf="stream" (loadMore)="onLoadMore($event)" class="stream scroll">
     <ol>
       <li *ngFor="let msg of stream" class="stream-message">
         <div class="profile-image">

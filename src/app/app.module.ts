@@ -11,7 +11,16 @@ import { MaterialModule } from './material.module';
 import { AuthGuard } from './guards/auth.guard'
 
 import { AuthService } from './services/auth.service';
-import { SocketService } from './services/socket.service'
+import { SocketService } from './services/socket.service';
+import { RoomContentService } from './services/room-content.service';
+
+import { FriendfilterPipe } from './pipes/friendfilter.pipe';
+import { RoomfilterPipe } from './pipes/roomfilter.pipe';
+import { StreamDatePipe } from './pipes/stream-date.pipe';
+
+import { FullHeightDirective } from './directives/full-height.directive';
+import { ScrollDownStreamDirective } from './directives/scroll-down-stream.directive';
+import { ShareChatVhDirective } from './directives/share-chat-vh.directive';
 
 import { AppComponent } from './app.component';
 import { ConnectComponent } from './components/connect/connect.component';
@@ -22,14 +31,8 @@ import { SidelistComponent } from './components/sidelist/sidelist.component';
 import { RoomsComponent } from './components/rooms/rooms.component';
 import { FriendsComponent } from './components/friends/friends.component';
 import { RoomcontentComponent } from './components/roomcontent/roomcontent.component';
-import { FriendfilterPipe } from './pipes/friendfilter.pipe';
-import { RoomfilterPipe } from './pipes/roomfilter.pipe';
 import { ThreadlistComponent } from './components/threadlist/threadlist.component';
 import { ChatComponent } from './components/chat/chat.component';
-import { StreamDatePipe } from './pipes/stream-date.pipe';
-import { ShareChatVhDirective } from './directives/share-chat-vh.directive';
-import { FullHeightDirective } from './directives/full-height.directive';
-import { ScrollDownStreamDirective } from './directives/scroll-down-stream.directive';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ThreadCreationComponent } from './components/thread-creation/thread-creation.component';
 import { RoomCreationComponent } from './components/room-creation/room-creation.component';
@@ -39,6 +42,7 @@ import { ToolbarTitleComponent } from './components/toolbar-title/toolbar-title.
 import { ToolbarAccountComponent } from './components/toolbar-account/toolbar-account.component';
 import { GuestlistComponent } from './components/guestlist/guestlist.component';
 import { ThreadManagerComponent } from './components/thread-manager/thread-manager.component';
+
 
 @NgModule({
   declarations: [
@@ -97,7 +101,8 @@ import { ThreadManagerComponent } from './components/thread-manager/thread-manag
   providers: [
     AuthGuard,
     AuthService,
-    SocketService
+    SocketService,
+    RoomContentService
   ],
   bootstrap: [AppComponent]
 })

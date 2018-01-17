@@ -60,4 +60,20 @@ export class ToolbarTitleComponent implements OnInit {
     });
   }
 
+  openConfirmDelete() {
+    let dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        description: `You are about to delete room "${this.room.name}" (ID: "${this.room.id}").`,
+        confirm_statement: 'Please confirm the deletion.'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res: { confirmed: boolean }) => {
+      if (res && res.confirmed) {
+        
+      }
+    });
+  }
+
 }

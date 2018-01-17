@@ -1,6 +1,6 @@
 <div *ngIf="room; else noRoomSelected" class="room-grid">
   <div [appFullHeight]="70" class="chat">
-    <app-chat *ngIf="thread; else noThreadSelected" [stream]="thread.feed" (onSendMessage)="onSendMessage($event)"></app-chat>
+    <app-chat *ngIf="thread; else noThreadSelected"></app-chat>
   </div>
   <ng-template #noThreadSelected>
     <div class="chat empty">
@@ -9,7 +9,7 @@
   </ng-template>
   <div class="guests">
     <div class="container">
-      <div *ngIf="is_super_guest" class="item new-guests">
+      <div *ngIf="isSuperGuest" class="item new-guests">
         <span class="white">
           Add guests
         </span>
@@ -19,14 +19,14 @@
       </div>
       <div [appFullHeight]="110" class="scroll white">
         <mat-list dense class="thread-mat-list">
-          <app-guestlist [guests]="room_guests"></app-guestlist>
+          <app-guestlist></app-guestlist>
         </mat-list>
       </div>
     </div>
   </div>
   <div class="threads">
     <div class="container">
-      <div *ngIf="is_super_guest" class="item new-thread">
+      <div *ngIf="isSuperGuest" class="item new-thread">
         <span>
           New thread
         </span>
@@ -36,8 +36,7 @@
       </div>
       <div [appFullHeight]="110" class="scroll">
         <mat-list class="thread-mat-list">
-          <app-threadlist [threads]="room_threads" [mainThread]="room_mainthread" [currentThread]="thread_id" [isSuperGuest]="is_super_guest"
-            [roomId]="room_id" (onChangeThread)="onChangeThread($event)"></app-threadlist>
+          <app-threadlist></app-threadlist>
         </mat-list>
       </div>
     </div>

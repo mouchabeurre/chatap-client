@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { RoomContentService } from '../../services/room-content.service';
+import { AuthService } from '../../services/auth.service';
+import { SocketService } from '../../services/socket.service';
 
 @Component({
   selector: 'app-guestlist',
@@ -8,9 +11,15 @@ import { Component, Input, OnInit } from '@angular/core';
 export class GuestlistComponent implements OnInit {
   private status: typeof gStatus;
 
-  @Input() guests: { user: string, privilege: string, status: gStatus }[];
+  get guests(): { user: string, privilege: string, status: gStatus }[] | null {
+    return !this._rcService.room ? null : this._rcService.guests;
+  }
 
-  constructor() {
+  constructor(
+    private _authService: AuthService,
+    private _rcService: RoomContentService,
+    private _socketService: SocketService
+  ) {
     this.status = gStatus;
   }
 

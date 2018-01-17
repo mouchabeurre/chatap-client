@@ -8,6 +8,7 @@ import { RoomfilterPipe } from '../../pipes/roomfilter.pipe';
   encapsulation: ViewEncapsulation.None
 })
 export class RoomsComponent implements OnInit {
+  private tmpCurrent: string;
 
   @Input() rooms: Room[];
   @Input() query: string;
@@ -21,7 +22,8 @@ export class RoomsComponent implements OnInit {
   }
 
   change(id: string) {
-    if (this.currentRoom !== id) {
+    if (this.currentRoom !== id && this.tmpCurrent !== id) {
+      this.tmpCurrent = id;
       this.onChangeRoom.emit(id);
     }
   }
