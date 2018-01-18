@@ -43,6 +43,9 @@ export class SocketService {
     this.connection();
   }
   public logout() {
+    this.roomcontentSubject.next({ event: 'reset-data', data: null });
+    this.sidelistSubject.next({ event: 'reset-data', data: null });
+    this.toolbarSubject.next({ event: 'reset-data', data: null });
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     this.socket.disconnect();
@@ -70,18 +73,16 @@ export class SocketService {
     routes.map(route => {
       this.listen(route.action).takeUntil(this.ngUnsubscribe).subscribe(res => {
         route.to.map(subject => {
-          setTimeout(() => {
-            switch (subject) {
-              case Subjects.roomcontent:
-                this.roomcontentSubject.next(res);
-                break;
-              case Subjects.sidelist:
-                this.sidelistSubject.next(res);
-                break;
-              case Subjects.toolbar:
-                this.toolbarSubject.next(res);
-            }
-          }, 500);
+          switch (subject) {
+            case Subjects.roomcontent:
+              this.roomcontentSubject.next(res);
+              break;
+            case Subjects.sidelist:
+              this.sidelistSubject.next(res);
+              break;
+            case Subjects.toolbar:
+              this.toolbarSubject.next(res);
+          }
         });
       });
     });
@@ -166,10 +167,6 @@ export class SocketService {
   }
 
 
-
-
-
-
   public addGuestAction(room_id: string, guest: string) {
     this.socket.emit('add-guest', { room_id: room_id, add_user: guest });
   }
@@ -188,6 +185,9 @@ export class SocketService {
     this.toolbarSubject.next({ event: 'main-menu', data: null });
   }
 
-
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 
 }

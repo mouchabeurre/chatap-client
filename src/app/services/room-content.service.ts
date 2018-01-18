@@ -32,13 +32,17 @@ export class RoomContentService implements OnDestroy {
     this.ngUnsubscribe = new Subject();
     this.threadEmitter = new Subject();
     this.roomEmitter = new Subject();
-    this.room = null;
-    this.thread = null;
-    this.guests = [];
     this.init();
   }
 
-  init() {
+  private init() {
+    this.room = null;
+    this.thread = null;
+    this.guests = [];
+    this.listenSocket();
+  }
+
+  listenSocket() {
     this._socketService.roomcontent_stream
       .takeUntil(this.ngUnsubscribe)
       .subscribe((res: { event: string, data: any }) => {
@@ -62,7 +66,7 @@ export class RoomContentService implements OnDestroy {
                 status: gStatus.offline
               });
             });
-            this.roomEmitter.next(res.data.room.id);
+            this.roomEmitter.next(null);
             break;
           case 'get-guests-ack':
             res.data.guests.map(guest => {
@@ -80,9 +84,11 @@ export class RoomContentService implements OnDestroy {
           case 'create-thread-ack':
             break;
           case 'get-thread-ack':
-            this.thread = res.data.thread;
-            this.thread.feed = [];
-            this.threadEmitter.next(0);
+            if (this.room.id === res.data.thread.room) {
+              this.thread = res.data.thread;
+              this.thread.feed = [];
+              this.threadEmitter.next(0);
+            }
             break;
           case 'get-stream-ack':
             if (this.thread !== null) {
@@ -122,8 +128,7 @@ export class RoomContentService implements OnDestroy {
             if (this.room !== null && this.room.id === res.data.room_id) {
               this.room.threads.push({ _id: res.data._id, title: res.data.title });
             }
-            this._socketService.getThreadAction(this.room.id, res.data._id);
-            this._socketService.getStreamAction(this.room.id, res.data._id);
+            this.roomEmitter.next(res.data._id);
             break;
           case 'send-thread-ack':
             break;
@@ -143,9 +148,13 @@ export class RoomContentService implements OnDestroy {
           case 'main-menu':
             this.room = this.thread = this.guests = null;
             break;
+          case 'reset-data':
+            this.ngUnsubscribe.next();
+            this.ngUnsubscribe.complete();
+            this.init();
+            break;
         }
-      }
-      );
+      });
   }
 
   ngOnDestroy() {

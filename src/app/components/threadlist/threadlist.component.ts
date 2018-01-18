@@ -72,7 +72,10 @@ export class ThreadlistComponent implements OnInit {
   ngOnInit() {
     this._rcService.roomEmitter
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(room_id => {
+      .subscribe((data: string | null) => {
+        if (data) {
+          this.onChangeThread(data);
+        }
         this.tmpThread = null;
       });
   }

@@ -36,9 +36,9 @@ export class ToolbarAccountComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res: { confirmed: boolean }) => {
       if (res && res.confirmed) {
+        this.socketService.logout();
         this.router.navigate(['/connect']);
         this._authService.clearToken();
-        this.socketService.logout();
       }
     });
   }
