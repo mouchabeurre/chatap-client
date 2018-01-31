@@ -1,14 +1,14 @@
 <div appShareChatVh>
   <div appScrollDownStream *ngIf="stream" (loadMore)="onLoadMore($event)" class="stream scroll">
     <ol>
-      <li *ngFor="let msg of stream" class="stream-message">
+      <li *ngFor="let msg of stream" class="stream-message" [@whoa]="'in'">
         <div class="profile-image">
           <img src="https://i.imgur.com/39mUV8g.jpg" alt="kitten">
         </div>
         <div class="message-header">
           <span [ngClass]="{
           'own-message': whoami == msg.author
-        }">@{{ msg.author }}</span>
+        }">{{ msg.author }}</span>
           <span>{{ msg.date | streamDate }}</span>
         </div>
         <div class="message-content">{{ msg.loadout.content }}</div>

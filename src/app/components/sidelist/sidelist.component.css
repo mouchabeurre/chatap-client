@@ -12,10 +12,6 @@
   width: 100%;
 }
 
-.white * {
-  color: rgb(221, 221, 221);
-}
-
 .scroll {
   overflow: auto;
 }

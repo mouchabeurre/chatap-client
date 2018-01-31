@@ -43,11 +43,14 @@
   text-align: center;
 }
 
-.new-guests {
+.manage-guests {
   width: 100%;
   text-align: center;
 }
 
-.new-guests > span {
+.manage-guests > button {
   color: #c7c7c7;
+  background-color: #444;
+  margin: 10px 0;
+  width: 60%;
 }

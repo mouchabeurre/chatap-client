@@ -17,6 +17,7 @@ export class RoomContentService implements OnDestroy {
 
   public threadEmitter: Subject<number>;
   public roomEmitter: Subject<string>;
+  public streamEmitter: Subject<{ message: MESSAGE, new: boolean } | null>;
 
   get isSuperGuest(): boolean {
     const index = this.room.guests.findIndex(guest => guest.user === this._authService.user.userIdentity);
@@ -31,6 +32,7 @@ export class RoomContentService implements OnDestroy {
   ) {
     this.ngUnsubscribe = new Subject();
     this.threadEmitter = new Subject();
+    this.streamEmitter = new Subject();
     this.roomEmitter = new Subject();
     this.init();
   }
@@ -86,7 +88,8 @@ export class RoomContentService implements OnDestroy {
           case 'get-thread-ack':
             if (this.room.id === res.data.thread.room) {
               this.thread = res.data.thread;
-              this.thread.feed = [];
+              // this.thread.feed = [];
+              this.streamEmitter.next(null);
               this.threadEmitter.next(0);
             }
             break;
@@ -95,7 +98,10 @@ export class RoomContentService implements OnDestroy {
               if (res.data.stream.length === 0) {
                 this.threadEmitter.next(2);
               } else {
-                this.thread.feed = res.data.stream.reverse().concat(this.thread.feed);
+                // this.thread.feed = res.data.stream.reverse().concat(this.thread.feed);
+                res.data.stream.reverse().map(message => {
+                  this.streamEmitter.next({message: message, new: false});
+                });
                 this.threadEmitter.next(1);
               }
             }
@@ -134,7 +140,8 @@ export class RoomContentService implements OnDestroy {
             break;
           case 'new-message':
             if (this.room !== null && this.room.id === res.data.room_id && this.thread._id === res.data.thread_id) {
-              this.thread.feed.push(res.data.message);
+              // this.thread.feed.push(res.data.message);
+              this.streamEmitter.next({ message: res.data.message, new: true });
             }
             break;
           case 'new-guest':

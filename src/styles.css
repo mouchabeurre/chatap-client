@@ -14,3 +14,7 @@ body {
   text-align: justify;
   text-justify: inter-word;
 }
+
+.white * {
+  color: rgb(221, 221, 221);
+}

@@ -9,12 +9,9 @@
   </ng-template>
   <div class="guests">
     <div class="container">
-      <div *ngIf="isSuperGuest" class="item new-guests">
-        <span class="white">
-          Add guests
-        </span>
-        <button mat-icon-button (click)="null" color="primary">
-          <mat-icon aria-label="Add icon">add_box</mat-icon>
+      <div *ngIf="isSuperGuest" class="item manage-guests">
+        <button mat-button [matMenuTriggerFor]="guestsMenu" class="to-uppercase">
+          Manage
         </button>
       </div>
       <div [appFullHeight]="110" class="scroll white">
@@ -42,6 +39,21 @@
     </div>
   </div>
 </div>
+
+<mat-menu #guestsMenu="matMenu" overlapTrigger="false" [xPosition]="'before'">
+  <button mat-menu-item (click)="null">
+    <mat-icon>add_box</mat-icon>
+    <span>Add guest</span>
+  </button>
+  <button mat-menu-item (click)="null">
+    <mat-icon>remove_circle</mat-icon>
+    <span>Remove guest</span>
+  </button>
+  <button mat-menu-item (click)="null">
+    <mat-icon>edit</mat-icon>
+    <span>Edit whitelist</span>
+  </button>
+</mat-menu>
 
 <ng-template #noRoomSelected>
   <div class="empty">
