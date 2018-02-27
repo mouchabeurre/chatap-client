@@ -4,7 +4,7 @@
   'ack-room': tmpCurrent == room.id && tmpCurrent != currentRoom
 }">
   <mat-icon matListIcon>people</mat-icon>
-  <h3 matLine>{{ room.name }}</h3>
+  <h3 matLine [title]="room.name">{{ room.name }}</h3>
   <div matLine>
     <small>{{ room.date | date }}</small>
   </div>

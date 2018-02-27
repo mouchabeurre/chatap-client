@@ -18,3 +18,7 @@ body {
 .white * {
   color: rgb(221, 221, 221);
 }
+
+mat-chip {
+  margin-bottom: 5px !important;
+}

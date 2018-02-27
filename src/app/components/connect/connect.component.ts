@@ -10,7 +10,7 @@ import { SIGN_UP } from '../../models/auth-signup';
   encapsulation: ViewEncapsulation.None
 })
 export class ConnectComponent implements OnInit {
-  private navLinks: [{ path: string, label: string }];
+  private navLinks: { path: string, label: string }[];
 
   constructor(
     private router: Router

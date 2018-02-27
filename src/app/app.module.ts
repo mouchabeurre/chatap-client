@@ -42,6 +42,7 @@ import { ToolbarTitleComponent } from './components/toolbar-title/toolbar-title.
 import { ToolbarAccountComponent } from './components/toolbar-account/toolbar-account.component';
 import { GuestlistComponent } from './components/guestlist/guestlist.component';
 import { ThreadManagerComponent } from './components/thread-manager/thread-manager.component';
+import { GuestsAddComponent } from './components/guests-add/guests-add.component';
 
 
 @NgModule({
@@ -71,14 +72,16 @@ import { ThreadManagerComponent } from './components/thread-manager/thread-manag
     ToolbarTitleComponent,
     ToolbarAccountComponent,
     GuestlistComponent,
-    ThreadManagerComponent
+    ThreadManagerComponent,
+    GuestsAddComponent
   ],
   entryComponents: [
     RoomCreationComponent,
     ThreadCreationComponent,
     ConfirmDialogComponent,
     RoomManagerComponent,
-    ThreadManagerComponent
+    ThreadManagerComponent,
+    GuestsAddComponent
   ],
   imports: [
     BrowserModule,

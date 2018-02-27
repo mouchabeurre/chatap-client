@@ -4,7 +4,7 @@
   'ack-thread': tmpThread == mainThread._id && tmpThread != cThread
 }">
   <mat-icon matListIcon>chat</mat-icon>
-  <h3 matLine>{{ mainThread.title }}</h3>
+  <h3 matLine [title]="mainThread.title">{{ mainThread.title }}</h3>
   <div matLine>
     <small>{{ mainThread._id }}</small>
   </div>
@@ -19,7 +19,7 @@
   'ack-thread': tmpThread == thread._id && tmpThread != cThread
 }">
   <mat-icon matListIcon>chat</mat-icon>
-  <h3 matLine>{{ thread.title }}</h3>
+  <h3 matLine [title]="thread.title">{{ thread.title }}</h3>
   <div matLine>
     <small>{{ thread._id }}</small>
   </div>

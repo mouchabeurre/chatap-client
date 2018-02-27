@@ -1,0 +1,33 @@
+.query-guests {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.query-guests,
+.query-guests * {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.query-guests mat-list-item {
+  transition: all 150ms;
+  background-color: #e6e6e6;
+  margin-bottom: 5px;
+}
+
+.query-guests mat-list-item:hover {
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+.query-guests + .chip-list {
+  margin-top: 5px;
+}
+
+.fetch-spinner-container {
+  height: 60px;
+}

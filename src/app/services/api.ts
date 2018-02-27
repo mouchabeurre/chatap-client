@@ -37,7 +37,8 @@ export const routes: Route[] = [
   { action: 'join-room-ack', to: [Subjects.sidelist] },
   { action: 'leave-room-ack', to: [Subjects.sidelist] },
   { action: 'remove-guest-ack', to: [Subjects.toolbar, Subjects.roomcontent] },
-  { action: 'left-guest', to: [Subjects.toolbar, Subjects.roomcontent] }
+  { action: 'left-guest', to: [Subjects.toolbar, Subjects.roomcontent] },
+  { action: 'search-user-ack', to: [Subjects.roomcontent] }
 ];
 
 export const enum Subjects {

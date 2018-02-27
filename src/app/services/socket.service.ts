@@ -167,6 +167,9 @@ export class SocketService {
   }
 
 
+  public queryGuestsAction(room_id: string, query: string) {
+    this.socket.emit('search-user', { room_id: room_id, query: query });
+  }
   public addGuestAction(room_id: string, guest: string) {
     this.socket.emit('add-guest', { room_id: room_id, add_user: guest });
   }

@@ -18,6 +18,7 @@ export class RoomContentService implements OnDestroy {
   public threadEmitter: Subject<number>;
   public roomEmitter: Subject<string>;
   public streamEmitter: Subject<{ message: MESSAGE, new: boolean } | null>;
+  public queryResultsEmitter: Subject<{ user: string }[]>;
 
   get isSuperGuest(): boolean {
     const index = this.room.guests.findIndex(guest => guest.user === this._authService.user.userIdentity);
@@ -34,6 +35,7 @@ export class RoomContentService implements OnDestroy {
     this.threadEmitter = new Subject();
     this.streamEmitter = new Subject();
     this.roomEmitter = new Subject();
+    this.queryResultsEmitter = new Subject();
     this.init();
   }
 
@@ -99,8 +101,8 @@ export class RoomContentService implements OnDestroy {
                 this.threadEmitter.next(2);
               } else {
                 // this.thread.feed = res.data.stream.reverse().concat(this.thread.feed);
-                res.data.stream.reverse().map(message => {
-                  this.streamEmitter.next({message: message, new: false});
+                res.data.stream.map(message => {
+                  this.streamEmitter.next({ message: message, new: false });
                 });
                 this.threadEmitter.next(1);
               }
@@ -140,11 +142,17 @@ export class RoomContentService implements OnDestroy {
             break;
           case 'new-message':
             if (this.room !== null && this.room.id === res.data.room_id && this.thread._id === res.data.thread_id) {
-              // this.thread.feed.push(res.data.message);
               this.streamEmitter.next({ message: res.data.message, new: true });
             }
             break;
+          case 'search-user-ack':
+            this.queryResultsEmitter.next(res.data.users);
+            break;
           case 'new-guest':
+            if (this.room !== null && this.room.id === res.data.room_id) {
+              this.guests.push({ user: res.data.guest.user, privilege: res.data.guest.privilege, status: gStatus.offline });
+              // get new guest connection status
+            }
             break;
           case 'join-room-ack':
             break;
