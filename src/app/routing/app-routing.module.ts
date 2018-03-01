@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 
-import { ConnectComponent } from '../components/connect/connect.component';
-import { SigninComponent } from '../components/signin/signin.component';
-import { SignupComponent } from '../components/signup/signup.component';
-import { GlobalayoutComponent } from '../components/globalayout/globalayout.component';
+import { ConnectComponent } from '../connect/connect.component';
+import { SigninComponent } from '../connect/signin/signin.component';
+import { SignupComponent } from '../connect/signup/signup.component';
+import { GlobalayoutComponent } from '../globalayout/globalayout.component';
+import { NotFoundComponent } from '../not-found/not-found.component';
 
 
 const appRoutes: Routes = [
@@ -38,6 +39,10 @@ const appRoutes: Routes = [
     component: GlobalayoutComponent,
     canActivate: [AuthGuard],
     children: []
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
   }
 ];
 
