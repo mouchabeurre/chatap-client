@@ -147,7 +147,7 @@ export class RoomContentService implements OnDestroy {
           case 'send-thread-ack':
             break;
           case 'new-message':
-            if (this.room !== null && this.room.id === res.data.room_id && this.thread._id === res.data.thread_id) {
+            if (this.room !== null && this.room.id === res.data.room_id && this.thread && this.thread._id === res.data.thread_id) {
               this.streamEmitter.next({ message: res.data.message, new: true });
             }
             break;
@@ -165,6 +165,11 @@ export class RoomContentService implements OnDestroy {
           case 'remove-guest-ack':
             break;
           case 'left-guest':
+            if (this.room !== null && this.room.id === res.data.room_id) {
+              const indexG = this.guests.findIndex(guest => guest.user === res.data.guest);
+              if (indexG >= 0) { this.guests.splice(indexG, 1); }
+              // get new guest connection status
+            }
             break;
           case 'main-menu':
             this.room = this.thread = this.guests = null;

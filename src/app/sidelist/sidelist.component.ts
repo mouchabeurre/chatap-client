@@ -65,7 +65,7 @@ export class SidelistComponent implements OnInit, OnDestroy {
               break;
             case 'connection-friend':
               const indexF = this.friends.findIndex(user => user.username === res.data.user);
-              this.friends[indexF].online = res.data.online;
+              if (indexF >= 0) { this.friends[indexF].online = res.data.online; }
               break;
             case 'get-room-ack':
               this.current_room = res.data.room._id;
@@ -86,7 +86,7 @@ export class SidelistComponent implements OnInit, OnDestroy {
               break;
             case 'rename-room-ack':
               const indexRename = this.rooms.findIndex(room => room.id === res.data.room_id);
-              this.rooms[indexRename].name = res.data.room_name;
+              if (indexRename >= 0) { this.rooms[indexRename].name = res.data.room_name; }
               break;
             case 'send-friend-request-ack':
               break;
@@ -103,11 +103,13 @@ export class SidelistComponent implements OnInit, OnDestroy {
               break;
             case 'leave-room-ack':
               const indexR = this.rooms.findIndex(room => room.id === res.data.room_id);
-              if (this.current_room === res.data.room_id) {
-                this._socketService.mainMenu();
+              if (indexR >= 0) {
+                if (this.current_room === res.data.room_id) {
+                  this._socketService.mainMenu();
+                }
+                this._snackService.generateSnack({ message: `Successfully left room "${this.rooms[indexR].name}"`, action: 'Close', duration: 2000 });
+                this.rooms.splice(indexR, 1);
               }
-              this.current_room = null;
-              this.rooms.splice(indexR, 1);
               break;
             case 'remove-friend':
               break;

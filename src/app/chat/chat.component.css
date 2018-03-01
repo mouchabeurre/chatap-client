@@ -6,6 +6,7 @@
 }
 
 .stream > ol {
+  position: relative;
   list-style: none;
   margin: 0 auto 0 auto;
   padding: 0;
@@ -19,6 +20,7 @@
 }
 
 .loading-stream {
+  position: absolute;
   display: flex;
   z-index: 1;
   width: 100%;

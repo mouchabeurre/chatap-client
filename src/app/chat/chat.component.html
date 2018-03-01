@@ -1,9 +1,9 @@
 <div appShareChatVh>
   <div appScrollDownStream *ngIf="stream" (loadMore)="onLoadMore($event)" class="stream scroll">
-    <div class="loading-stream" *ngIf="pending">
-      <mat-progress-bar [@loading]="in" mode="indeterminate" color="accent"></mat-progress-bar>
-    </div>
     <ol>
+      <div class="loading-stream" *ngIf="pending">
+        <mat-progress-bar [@loading]="in" mode="indeterminate" color="accent"></mat-progress-bar>
+      </div>
       <li *ngFor="let msg of stream" class="stream-message" [@whoa]="in">
         <div class="profile-image">
           <img src="https://i.imgur.com/39mUV8g.jpg" alt="kitten">

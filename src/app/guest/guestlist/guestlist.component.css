@@ -3,9 +3,9 @@
   height: 10px;
   border-radius: 50%;
   background-color: rgb(109, 107, 107);
-  position: absolute;
-  right: 177px;
-  bottom: 18px;
+  position: relative;
+  right: 16px;
+  bottom: -30px;
 }
 
 .connection-orb + h3 {
