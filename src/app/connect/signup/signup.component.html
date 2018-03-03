@@ -100,7 +100,7 @@
         <button mat-icon-button color="primary" matStepperNext [disabled]="!fg_password.valid" [matTooltip]="tooltip_msg_next" [matTooltipPosition]="tooltip_pos_next">
           <mat-icon aria-label="Next step">keyboard_arrow_down</mat-icon>
         </button>
-        <mat-slide-toggle [color]="accent" [checked]="!hide_p ? true : false" (change)="hide_p = !hide_p">
+        <mat-slide-toggle color="accent" [checked]="!hide_p ? true : false" (change)="hide_p = !hide_p">
           Toggle visibility
         </mat-slide-toggle>
       </div>

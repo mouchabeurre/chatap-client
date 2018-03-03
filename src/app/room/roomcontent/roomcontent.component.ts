@@ -44,7 +44,7 @@ export class RoomcontentComponent implements OnInit {
     return 70;
   }
 
-  private gAction: typeof gActions;
+  public gAction: typeof gActions;
 
   constructor(
     public dialog: MatDialog,

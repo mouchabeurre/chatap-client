@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
 import { SIGN_IN } from '../../shared/models/auth-signin';
+import { SnackService } from '../../shared/snack.service';
+import { SNACK } from '../../shared/models/snack';
 
 @Component({
   selector: 'app-signin',
@@ -13,23 +15,24 @@ import { SIGN_IN } from '../../shared/models/auth-signin';
 export class SigninComponent implements OnInit {
   private _response: SIGN_IN;
 
-  private fg_username: FormGroup;
-  private fg_password: FormGroup;
+  public fg_username: FormGroup;
+  public fg_password: FormGroup;
 
-  private username: FormControl;
-  private password: FormControl;
+  public username: FormControl;
+  public password: FormControl;
 
   get is_valid_username(): boolean { return this.username.errors && (this.username.dirty || this.username.touched); }
   get is_valid_password(): boolean { return this.password.errors && (this.password.dirty || this.password.touched); }
 
-  private tooltip_pos_next: string = 'below';
-  private tooltip_pos_prev: string = 'below';
-  private tooltip_msg_next: string = 'Next step';
-  private tooltip_msg_prev: string = 'Previous step';
+  public tooltip_pos_next: string = 'below';
+  public tooltip_pos_prev: string = 'below';
+  public tooltip_msg_next: string = 'Next step';
+  public tooltip_msg_prev: string = 'Previous step';
 
   constructor(
     private _authService: AuthService,
     private _fb: FormBuilder,
+    private _snackService: SnackService,
     private _router: Router
   ) { }
 
@@ -63,11 +66,17 @@ export class SigninComponent implements OnInit {
     };
     this._authService.authenticate(this._response).subscribe(
       data => {
-        this._authService.storeToken(data.token);
-        this._router.navigate(['/home']);
+        if (data.success) {
+          this._authService.storeToken(data.token);
+          this._router.navigate(['/home']);
+        } else {
+          this._snackService.generateSnack({ message: 'Wrong username or password', action: 'Close', duration: 2000 });
+          this.password.reset();
+        }
       },
       err => {
-        console.log('Something went wrong!', err);
+        this._snackService.generateSnack({ message: 'Wrong username or password', action: 'Close', duration: 2000 });
+        this.password.reset();
       }
     );
   }

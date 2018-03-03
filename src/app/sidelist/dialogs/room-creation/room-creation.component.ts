@@ -9,8 +9,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class RoomCreationComponent implements OnInit {
 
-  private fg: FormGroup;
-  private name: FormControl;
+  public fg: FormGroup;
+  public name: FormControl;
 
   private selectedGuests: string[];
 

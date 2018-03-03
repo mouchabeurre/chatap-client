@@ -17,7 +17,7 @@ import { THREAD } from '../../shared/models/thread';
 export class ThreadlistComponent implements OnInit {
   private ngUnsubscribe: Subject<any>;
 
-  private tmpThread: string;
+  public tmpThread: string;
   private lastRoom: string;
 
   get isSuperGuest(): boolean {

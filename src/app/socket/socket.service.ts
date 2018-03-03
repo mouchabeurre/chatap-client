@@ -8,11 +8,13 @@ import { environment } from "../../environments/environment";
 import * as res from '../shared/models/socket-res'
 import * as io from 'socket.io-client';
 import { routes, Subjects } from './api';
+import { SnackService } from '../shared/snack.service';
+import { SNACK } from '../shared/models/snack';
 
 @Injectable()
 export class SocketService {
 
-  private socket;
+  private socket: any;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   private connected: BehaviorSubject<boolean>;
@@ -27,8 +29,10 @@ export class SocketService {
   private toolbarSubject: Subject<any>;
 
   constructor(
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _snackService: SnackService
   ) {
+    this.socket = null;
     this.connected = new BehaviorSubject(false);
 
     this.sidelistSubject = new Subject();
@@ -60,7 +64,7 @@ export class SocketService {
   private listen(event: string): Observable<any> {
     return new Observable(observer => {
       this.socket.on(event, data => {
-        console.log('incoming for', event, data);
+        // console.log('incoming for', event, data);
         observer.next({ event: event, data: data });
       });
       return () => {
@@ -104,7 +108,7 @@ export class SocketService {
     );
     this.listen('unauthorized').takeUntil(this.ngUnsubscribe).subscribe(
       res => {
-        console.log(res);
+        this._snackService.generateSnack({ message: 'Unauthorized', action: 'Close', duration: 2000 });
       }
     );
     this.listen('disconnect').takeUntil(this.ngUnsubscribe).subscribe(
@@ -114,7 +118,7 @@ export class SocketService {
     );
     this.listen('error-manager').takeUntil(this.ngUnsubscribe).subscribe(
       res => {
-        console.log(res);
+        this._snackService.generateSnack({ message: res, action: 'Close', duration: 2000 });
       }
     );
   }

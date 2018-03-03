@@ -9,11 +9,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class RoomManagerComponent implements OnInit {
 
-  private fg: FormGroup;
+  public fg: FormGroup;
   private room_name: FormControl;
 
-  private action: roomActions;
-  private title: string;
+  public action: roomActions;
+  public title: string;
 
   get is_valid_name(): boolean { return this.room_name.errors && (this.room_name.dirty || this.room_name.touched); }
 

@@ -47,6 +47,9 @@ import { GuestsAddComponent } from './guest/dialogs/guests-add/guests-add.compon
 import { SnackGrowlerComponent } from './shared/snack-growler/snack-growler.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
+export function getToken(): string {
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   declarations: [
@@ -98,10 +101,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ReactiveFormsModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => {
-          return localStorage.getItem('access_token');
-        },
-        whitelistedDomains: ['localhost:8080'],
+        tokenGetter: getToken,
+        whitelistedDomains: ['localhost:8080', 'messenjeur.herokuapp.com'],
         skipWhenExpired: true
       }
     })

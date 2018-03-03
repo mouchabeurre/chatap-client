@@ -9,8 +9,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class ThreadCreationComponent implements OnInit {
 
-  private fg: FormGroup;
-  private name: FormControl;
+  public fg: FormGroup;
+  public name: FormControl;
 
   get is_valid_name(): boolean { return this.name.errors && (this.name.dirty || this.name.touched); }
 

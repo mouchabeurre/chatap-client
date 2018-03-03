@@ -37,10 +37,10 @@ import 'rxjs/add/operator/filter';
 export class GuestsAddComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any>;
 
-  private query: FormControl;
-  private fg_query: FormGroup;
-  private response: { list: string[], pending: boolean };
-  private selected: string[];
+  public query: FormControl;
+  public fg_query: FormGroup;
+  public response: { list: string[], pending: boolean };
+  public selected: string[];
 
   get guests(): { user: string, privilege: string, status: gStatus }[] | null {
     return !this._rcService.room ? null : this._rcService.guests;

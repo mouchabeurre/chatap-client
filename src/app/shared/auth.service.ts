@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt'
+import { environment } from "../../environments/environment";
 import 'rxjs/add/operator/map';
 
 import { SIGN_IN } from './models/auth-signin';
@@ -18,25 +19,25 @@ export class AuthService {
   authenticate(user: SIGN_IN) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this._http.post<AUTHENTICATE>('http://localhost:8080/api/user/authenticate', user, { headers: headers });
+    return this._http.post<AUTHENTICATE>(environment.api.baseUrl + '/user/authenticate', user, { headers: headers });
   }
 
   register(user: SIGN_UP) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this._http.post<REGISTER>('http://localhost:8080/api/user/register', user, { headers: headers });
+    return this._http.post<REGISTER>(environment.api.baseUrl + '/user/register', user, { headers: headers });
   }
 
   usernameCheck(username: string) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this._http.get<AVAILABLE>(`http://localhost:8080/api/user/usernamecheck/${username}`, { headers: headers });
+    return this._http.get<AVAILABLE>(environment.api.baseUrl + `/user/usernamecheck/${username}`, { headers: headers });
   }
 
   emailCheck(email: string) {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this._http.get<AVAILABLE>(`http://localhost:8080/api/user/usernamecheck/${email}`, { headers: headers });
+    return this._http.get<AVAILABLE>(environment.api.baseUrl + `/user/usernamecheck/${email}`, { headers: headers });
   }
 
   storeToken(token) {

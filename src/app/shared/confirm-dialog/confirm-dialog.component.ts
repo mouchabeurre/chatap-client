@@ -8,8 +8,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class ConfirmDialogComponent implements OnInit {
 
-  private description: string;
-  private confirm_statement: string;
+  public description: string;
+  public confirm_statement: string;
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,

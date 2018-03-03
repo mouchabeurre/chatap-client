@@ -27,16 +27,16 @@ import { SNACK } from '../../shared/models/snack';
 export class SignupComponent implements OnInit {
   private _response: SIGN_UP;
 
-  private fg_username: FormGroup;
-  private fg_email: FormGroup;
-  private fg_pseudo: FormGroup;
-  private fg_password: FormGroup;
+  public fg_username: FormGroup;
+  public fg_email: FormGroup;
+  public fg_pseudo: FormGroup;
+  public fg_password: FormGroup;
 
-  private username: FormControl;
-  private email: FormControl;
-  private pseudo: FormControl;
-  private password: FormControl;
-  private confirm_password: FormControl;
+  public username: FormControl;
+  public email: FormControl;
+  public pseudo: FormControl;
+  public password: FormControl;
+  public confirm_password: FormControl;
 
   get is_valid_username(): boolean { return this.username.errors && (this.username.dirty || this.username.touched); }
   get is_valid_email(): boolean { return this.email.errors && (this.email.dirty || this.email.touched); }
@@ -44,11 +44,11 @@ export class SignupComponent implements OnInit {
   get is_valid_password(): boolean { return this.password.errors && (this.password.dirty || this.password.touched); }
   get is_valid_confirm_password(): boolean { return this.confirm_password.errors && (this.confirm_password.dirty || this.confirm_password.touched); }
 
-  private hide_p: boolean = true;
-  private tooltip_pos_next: string = 'below';
-  private tooltip_pos_prev: string = 'below';
-  private tooltip_msg_next: string = 'Next step';
-  private tooltip_msg_prev: string = 'Previous step';
+  public hide_p: boolean = true;
+  public tooltip_pos_next: string = 'below';
+  public tooltip_pos_prev: string = 'below';
+  public tooltip_msg_next: string = 'Next step';
+  public tooltip_msg_prev: string = 'Previous step';
 
   @Output() onSignup = new EventEmitter<SIGN_UP>();
 
@@ -170,7 +170,7 @@ export class SignupComponent implements OnInit {
         this._router.navigate(['/connect/signin']);
       },
       err => {
-        console.log('Something went wrong!', err);
+        // console.log('Something went wrong!', err);
       }
     );
   }

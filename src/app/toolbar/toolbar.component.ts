@@ -11,7 +11,7 @@ import 'rxjs/add/operator/takeUntil';
 export class ToolbarComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  private room: { id: string, name: string, owner: string };
+  public room: { id: string, name: string, owner: string };
   private thread: { id: string, title: string };
 
   constructor(

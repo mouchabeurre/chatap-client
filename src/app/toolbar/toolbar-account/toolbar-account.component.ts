@@ -13,7 +13,7 @@ import { SNACK } from '../../shared/models/snack';
   styleUrls: ['./toolbar-account.component.css']
 })
 export class ToolbarAccountComponent implements OnInit {
-  private user: string;
+  public user: string;
 
   constructor(
     private router: Router,

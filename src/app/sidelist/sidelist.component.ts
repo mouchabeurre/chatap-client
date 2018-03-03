@@ -16,8 +16,8 @@ import 'rxjs/add/operator/takeUntil';
 export class SidelistComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  private toggle: { message: string, room_deployed: boolean };
-  private query: string;
+  public toggle: { message: string, room_deployed: boolean };
+  public query: string;
 
   private friends: Friend[];
   private rooms: Room[];
@@ -130,12 +130,12 @@ export class SidelistComponent implements OnInit, OnDestroy {
   }
 
   onChangeRoom(id: string) {
-    console.log('changing room', id);
+    // console.log('changing room', id);
     this._socketService.getRoomAction(id);
   }
 
   onChangeFriend(username: string) {
-    console.log('changing friend', username);
+    // console.log('changing friend', username);
   }
 
   openRoomDialog() {

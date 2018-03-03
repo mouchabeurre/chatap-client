@@ -50,9 +50,9 @@ import 'rxjs/add/operator/takeUntil';
 export class ChatComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any>;
 
-  private fg: FormGroup;
-  private new_message: FormControl;
-  private stream: MESSAGE[];
+  public fg: FormGroup;
+  public new_message: FormControl;
+  public stream: MESSAGE[];
   private pending: boolean;
 
   get is_valid_message(): boolean {
